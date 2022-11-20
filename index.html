@@ -1,0 +1,71 @@
+//Visualising the SPARQL Query in a HTML table
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Table</title>
+    </head>
+    <body>
+        <p>Table</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Drug Name</th>
+                    <th>Side Effect Identifier</th>
+                    <th>Side Effect Name</th>
+                    <th>Max Upperbound</th>
+                </tr>
+            </thead>
+            <tbody id="queryTable"></tbody>
+        </table>
+         
+        <script>
+
+            exeQuery();
+
+            async function exeQuery() {
+                var query = `
+                PREFIX sideEffectFrequency: <http://linkedlifedata.com/resource/sider/sideEffectFrequency/>
+                PREFIX sideEffect: <http://linkedlifedata.com/resource/sider/sideEffect/>
+                PREFIX sider-drug: <http://linkedlifedata.com/resource/sider/drug/>
+                PREFIX sider: <http://linkedlifedata.com/resource/sider/>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT DISTINCT (SAMPLE(?drugname) as ?drugnamesample) ?se (SAMPLE(?selabellower) as ?selowersample) (MAX(?upperbound) as ?maxupperbound)
+                WHERE {
+                    sider-drug:1978 rdf:type sider:Drug.
+                    sider-drug:1978  <http://linkedlifedata.com/resource/sider/drug/sideEffect> ?se.
+                    ?se sideEffect:sideEffectName ?selabel.
+                    sider-drug:1978  sider-drugs:drugName ?drugname.
+                     OPTIONAL {
+                        sider-drug:1978 sider-drugs:sideEffectFrequency ?frequency.
+                        ?frequency <http://linkedlifedata.com/resource/sider/frequency/sideEffect> ?se.
+                        ?frequency <http://linkedlifedata.com/resource/sider/frequency/upperBound> ?upperbound.
+                        }
+                    BIND(lcase(str(?selabel)) as ?selabellower)
+                    }
+                GROUP BY ?se
+                limit 100`;
+                var endpointURI = 'http://linkedlifedata.com/sparql';
+                var uri1 = endpointURI+'?query='+encodeURIComponent(query);
+                const requestURI = uri1;
+                const request = new Request(requestURI);
+                const reponse = await fetch(request);
+                const jsonQuery = await response.json();
+                createTable(jsonQuery);
+            }
+
+            function createTable(obj){
+                var table = document.getElementById("queryTable");
+                for (var i=0; i < obj.length; i++){
+                    var row = ` <tr>
+                                    <td>$(obj[i].drugnamesample)</td>
+                                    <td>$(obj[i].se)</td>
+                                    <td>$(obj[i].selowersample)</td>
+                                    <td>$(obj[i].maxupperbound)</td>
+                                </tr>`
+                    table.innerHTML += row;
+                }
+            }
+        </script>
+    </body>
+</html>
