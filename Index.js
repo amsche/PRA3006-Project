@@ -1,4 +1,4 @@
-const people = [
+const diseases = [
     { name: 'adri'},
     { name: 'becky'},
     { name: 'chris'},
@@ -33,9 +33,9 @@ searchInput.addEventListener("input", (e) => {
     if (value && value.trim().length > 0){
          value = value.trim().toLowerCase()
 
-        //returning only the results of setList if the value of the search is included in the person's name
-        setList(people.filter(person => {
-            return person.name.includes(value)
+        //returning only the results of setList if the value of the search is included in the d's name
+        setList(diseases.filter(d => {
+            return d.name.includes(value)
         }))}
     else{
         clearList()
@@ -70,10 +70,10 @@ function noResults(){
 }
 function setList(results){
     clearList()
-    for (const person of results){
+    for (const d of results){
         const resultItem = document.createElement('li')
         resultItem.classList.add('result-item')
-        const text = document.createTextNode(person.name)
+        const text = document.createTextNode(d.name)
         resultItem.appendChild(text)
         list.appendChild(resultItem)
     }
