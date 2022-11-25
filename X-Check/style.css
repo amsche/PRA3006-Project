@@ -84,18 +84,20 @@ h3
     margin: auto;
 }
 
-
-.form-container
+/* Search bar design*/
+.form
 {
     width : auto;
+    max-width: 900px;
     height : auto;
-    margin: auto;
+    margin : auto;
     text-align: center;
 }
 .input
 {
-    width: 800px;
+    width: 80%;
     padding: 10px;
+    padding-left: 20px;
     font-family: Avenir;
     font-size: 20px;
     border-radius: 30px;
@@ -111,4 +113,14 @@ h3
     border-style: none;
     background-color : white ;
     position: center;
+}
+
+.results-container
+{
+    width : auto;
+    max-width: 800px;
+    height : auto;
+    margin : auto;
+    text-align: left;
+    color: black;
 }
