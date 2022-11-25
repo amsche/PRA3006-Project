@@ -1,5 +1,4 @@
-const symptoms = Array.symName;
-    console.log("hello world")
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height"),
@@ -10,7 +9,7 @@ var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AF
 
 var data = [ {symName:"Rash", frequency: 0.25},{symName:"Fever", frequency: 0.25},{symName:"Nausea", frequency: 0.25},{symName:"Cancer", frequency: 0.25},{symName:"Blindness", frequency: 0.25},{symName:"Loss of Limbs", frequency: 0.25} ]
 
-var symNameA = [ {symName1: "Rash"},{symName2: "Fever"},{symName3: "Nausea"},{symName4: "Cancer"},{symName5: "Blindness"},{symName6: "Loss of Limbs"}]
+
     
 var pie = d3.pie()
     .sort(null)
@@ -33,7 +32,9 @@ var arc = g.selectAll(".arc")
 
 arc.append("path")
     .attr("d", path)
-    .attr("fill", function(d) { return color(d.data.symName); })
+    .attr("fill", function(d) { 
+        return color(d.data.symName); 
+    })
     // .attr("transform", function(d) {
     //     var c = arc.centroid(d),
     //         x = c[0],
@@ -66,7 +67,7 @@ arc.append("path")
        .duration(1000);
 
     // console log 
-        console.log(symName3);
+        console.log(d.data.symName);
     });
 
 var text = arc.append("text")
