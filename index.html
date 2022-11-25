@@ -58,7 +58,7 @@
             }
             const diseaseEntered = 'A';
             const endpointUrl = 'https://query.wikidata.org/sparql';
-            const sparqlQuery = `SELECT ?symptom ?symptomLabel
+            const sparqlQuery = `SELECT ?symptom ?symptomLabel ?symptomDescription
                                 WHERE {
                                 wd:DISEASE wdt:P780 ?symptom.
                                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
