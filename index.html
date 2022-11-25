@@ -1,0 +1,35 @@
+//Visualising the SPARQL Query in a HTML table
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Query</title>
+    </head>
+    <body>
+        <script>
+            class SPARQLQueryDispatcher {
+                constructor( endpoint ) {
+                    this.endpoint = endpoint;
+                }
+
+                query( sparqlQuery ) {
+                    const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+                    const headers = { 'Accept': 'application/sparql-results+json' };
+                    return fetch( fullUrl, { headers } ).then( body => body.json() );
+                }
+            }
+
+            const endpointUrl = 'https://query.wikidata.org/sparql';
+            const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel
+                                WHERE {
+                                ?disease wdt:P31 wd:Q18123741.
+                                ?disease wdt:P780 ?symptom.
+                                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
+                                }`;
+
+            const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
+            queryDispatcher.query( sparqlQuery ).then( console.log );
+           
+        </script>
+    </body>
+</html>
