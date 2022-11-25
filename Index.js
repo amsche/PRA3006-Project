@@ -1,3 +1,42 @@
+class SPARQLQueryDispatcher {
+    constructor( endpoint ) {
+        this.endpoint = endpoint;
+    }
+
+    query( sparqlQuery ) {
+        const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+        const headers = { 'Accept': 'application/sparql-results+json' };
+        return fetch( fullUrl, { headers } ).then( body => body.json() );
+    }
+}
+
+const endpointUrl = 'https://query.wikidata.org/sparql';
+const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel
+                    WHERE {
+                    ?disease wdt:P31 wd:Q18123741.
+                    ?disease wdt:P780 ?symptom.
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
+                    }`;
+function render(result){
+    var dropdown = "<select>"
+    console.log(result.results.bindings[0])
+    var diseases = new Set()
+    for (let i = 0; i < result.results.bindings.length; i++){
+        diseases.add("<option value=\"" + result.results.bindings[i].disease.value + "\">"+result.results.bindings[i].diseaseLabel.value+"</option>")
+    }
+    diseases = Array.from(diseases).sort()
+    for (let i = 0; i < diseases.length; i++){
+        // console.log(result.results.bindings[i].diseaseLabel.value)
+        dropdown += diseases[i]
+    }
+    dropdown+="</select>"
+    document.getElementById("dropdown").innerHTML=dropdown
+}
+const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
+result =  queryDispatcher.query( sparqlQuery ).then(render);
+//console.log(result)
+// const diseases = result[0]
+// console.log(diseases)
 const diseases = [
     { name: 'adri'},
     { name: 'becky'},
@@ -30,7 +69,7 @@ const searchInput = document.querySelector('.input')
 searchInput.addEventListener("input", (e) => {
     let value = e.target.value
 
-    if (value && value.trim().length > 0){
+    if (value && value.trim().length > 2){
          value = value.trim().toLowerCase()
 
         //returning only the results of setList if the value of the search is included in the d's name
@@ -44,9 +83,16 @@ searchInput.addEventListener("input", (e) => {
 const clearButton = document.getElementById('clear')
 
 clearButton.addEventListener("click", () => {
-
-    e.target.value =""
+    clearList()
 })
+const randomButton = document.getElementById('random')
+
+randomButton.addEventListener("click", () => {
+    let selected = diseases[Math.floor(Math.random()*diseases.length)].name
+    //returning only the results of setList if the value of the search is included in the d's name
+    setList(diseases.filter(d => {
+        return d.name.includes(selected)})
+)})
 
 function clearList(){
     // looping through each child of the search results list and remove each child
