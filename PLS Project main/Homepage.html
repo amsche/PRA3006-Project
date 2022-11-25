@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .body{
+          background-color: #edebe7;
+        }
+        .arc text {
+          font: 10px sans-serif;
+          text-anchor: middle;
+        }
+        .arc path {
+          stroke: #F8FBFF;}
+    </style>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
+        <title>X-Check</title>
+    </head>
+    <body>
+        <header>
+            <a href="Home.html"><img src="Visuals/Logo.png" alt="X-check logo" class="LogoXCheck"/></a>
+            <hr >
+        </header>
+
+        <nav>
+            <a href="Home.html">Home</a>
+            <a href="About_Us.html">About Us</a>
+            <a href="Another_Page.html">Another Page</a>
+        </nav>
+    
+        <section class = welcome>
+            <br />
+            <br />
+            <br />
+            <br />
+            <h1 class="Welcome">WELCOME TO <br /> X-CHECK</h1>
+            <h2 class="description">Checking infectious disease treatments</h2> 
+            <br />
+            <br />
+            <br />
+        </section>
+
+        <section class = sb>
+            <form class="form">
+                <input id="searchbar" type="text" class="input" placeholder="Enter an infectious disease..."/>
+                <button id="searchbutton" class="search">&#128269</button>
+            </form>
+             
+            <div class="results-container">
+                <ul class="results-list" id="list">
+                </ul>
+            </div>
+            <br />
+            <br />
+            <br />
+            <script src="Searchbar1.js"></script>
+        </section>
+
+        <section>
+            <div class="form-container">
+                <form class="form">
+                    <!-- <input id="searchbar" type="text" class="input" placeholder="Enter a Drug"/> -->
+                    <div id="dropdown"> </div>
+                    <button id="searchbutton" class="search" type="button">Search</button>
+                    <button id="clear" class="clear-results" type="button">Clear</button>
+                    <button id="random" class="randomselection" type="button">Show Example</button>           
+                </form>
+             </div>
+            <div class="results-container">
+                <ul class="results-list" id="list">
+                </ul>
+            </div>
+            <script src="Searchbar2.js"></script>
+        </section>
+
+        <section>
+            <svg width="960" height="600"></svg>
+            <script src="https://d3js.org/d3.v4.min.js"></script>
+            <script src="RPC.js"></script>
+        </section>
+
+    </body>                                                                
+</html>
