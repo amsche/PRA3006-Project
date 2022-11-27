@@ -11,23 +11,36 @@ class SPARQLQueryDispatcher {
 }
 
 const endpointUrl = 'https://query.wikidata.org/sparql';
-const sparqlQuery = `SELECT ?disease ?diseaseLabel 
-                    WHERE {
-                    ?disease wdt:P31 wd:Q18123741.
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
-                    }`;
+const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel
+WHERE {
+?disease wdt:P31 wd:Q18123741.
+?disease wdt:P780 ?symptom.
+SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
+}`;
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
 function Load(result) {
-    var diseases = new Set()
+    var set = new Set()
     for (let i = 0; i < result.results.bindings.length; i++) {
-        diseases.add({ ID: result.results.bindings[i].disease.value, name: result.results.bindings[i].diseaseLabel.value })
+        set.add(result.results.bindings[i].disease.value)
     }
-    return Array.from(diseases)
 
+    diseaseIDs = Array.from(set)
+    diseases = new Array(diseaseIDs)
+    for (let j = 0; j< diseaseIDs.length;j++){
+        for (let i = 0; i < result.results.bindings.length; i++) {
+            if(result.results.bindings[i].disease.value === diseaseIDs[j]){
+                diseases[j] = { ID: result.results.bindings[i].disease.value, name: result.results.bindings[i].diseaseLabel.value }
+            }
+        }
+    }
+    console.log(diseases)
+    return diseases
 }
 async function main() {
     const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
     diseases = await queryDispatcher.query(sparqlQuery).then(Load);
-    console.log(diseases)
     const searchInput = document.querySelector('.input')
     searchInput.addEventListener("input", (e) => {
         let value = e.target.value
