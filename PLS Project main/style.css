@@ -124,3 +124,36 @@ h3
     text-align: left;
     color: black;
 }
+
+#container {
+                width: 93%;
+                height: 93%;
+                margin: 0;
+                padding: 0;
+            }
+            .square1 {
+                height: 20px;
+                width: 20px;
+                background-color: #7EE5B1;
+                margin-top: 20px;
+                margin-left: 200px;
+                margin-bottom: 10px;
+            }
+            .square2 {
+                height: 20px;
+                width: 20px;
+                background-color: #72B6FF;
+                margin-left: 200px;
+                margin-bottom: 10px;
+            }
+            .square3 {
+                height: 20px;
+                width: 20px;
+                background-color: #8C72FF;
+                margin-left: 200px;
+                margin-bottom: 10px;
+            }
+            .textsymp {
+                font-size: 15px;
+                padding-left: 40px;
+            }
