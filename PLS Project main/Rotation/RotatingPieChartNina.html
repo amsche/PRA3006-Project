@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.body{
+  background-color: #edebe7;
+}
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #F8FBFF;}
+
+
+</style>
+<svg width="960" height="600"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="RPC.js"></script>
+
+<link rel="stylesheet" href="button.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button</title>
+</head>
+<body>
+    <button id="selectButton" type="button">Select</button>
+    <div id="data"></div>
+    <script>
+        /*const selectButton = document.getElementById("selectButton");
+        selectButton.addEventListener("click", function(e) {
+
+        });*/
+
+        let button = document.querySelector('#selectButton');
+
+        selectButton.addEventListener('click', (d) => {
+          d.data.symName.style.backgroundColor = 'Blue'
+        });
+    </script>
+</body>
