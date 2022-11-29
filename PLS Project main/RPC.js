@@ -3,7 +3,7 @@ async function RPC(results) {
 
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
+    var color = d3.scaleOrdinal(["#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0"]);
 
     var data = new Array(symptoms.length);
     for (let i = 0; i < symptoms.length; i++) {
@@ -67,6 +67,7 @@ async function RPC(results) {
     var text = arc.append("text")
         .attr("transform", function (d) { return "translate(" + label.centroid(d) + ")"; })
         .attr("dy", "0.38em")
+        .attr("font-family", "Brandon-Grotesque-Font-Family")
         .text(function (d) { return d.data.symName; });
 }
 async function parser(results) {
@@ -122,6 +123,5 @@ async function getInfo(symptom, results){
         }
     }
     document.getElementById("symptomDescription").innerHTML = symptom.symptomDescription.value
-    print(symptom.symptomDescription.value)
     console.log(symptom.symptomDescription.value)
 }
