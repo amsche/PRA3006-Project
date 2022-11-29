@@ -3,7 +3,7 @@ async function RPC(results) {
 
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    var color = d3.scaleOrdinal(["#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0", "#C0C0C0"]);
+    var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
 
     var data = new Array(symptoms.length);
     for (let i = 0; i < symptoms.length; i++) {
@@ -34,9 +34,7 @@ async function RPC(results) {
 
     arc.append("path")
         .attr("d", path)
-        .attr("fill", function (d) {
-            return color(d.data.symName);
-        })
+        .attr("fill", "#C0C0C0")
         .attr("text-anchor", function (d) {
             // are we past the center?
             return (d.endAngle + d.startAngle) / 2 > Math.PI ?
@@ -46,7 +44,6 @@ async function RPC(results) {
         .on("click", function (d) {
             // The amount we need to rotate:
             var rotate = 90 - (d.startAngle + d.endAngle) / 2 / Math.PI * 180;
-            var color = "#000000";
 
             // Transition the pie chart
             g.transition()
@@ -58,10 +55,16 @@ async function RPC(results) {
                 .attr("transform", function (dd) {
                     return "translate(" + label.centroid(dd) + ") rotate(" + (-rotate) + ")";
                 })
-                .duration(1000);
+                .duration(1250);
 
-            // console log 
+            // console log
+            //d3.select.style("fill", "#C0C0C0")
+            d3.selectAll(this).style("fill", "#C0C0C0")
             getInfo(d.data.symName, results);
+            d3.select(this).style("fill", color(this))
+            // changeColour(d)
+            // arc.fill()
+            
         });
 
     var text = arc.append("text")
@@ -70,6 +73,10 @@ async function RPC(results) {
         .attr("font-family", "Brandon-Grotesque-Font-Family")
         .text(function (d) { return d.data.symName; });
 }
+function changeColour(arc){
+    console.log(arc)
+}
+
 async function parser(results) {
     console.log(results.results.bindings)
     var symptoms = new Set
