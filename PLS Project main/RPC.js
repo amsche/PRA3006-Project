@@ -76,7 +76,7 @@ async function parser(results){
     symptoms = Array.from(symptoms)
     RPC(symptoms)
 }
-async function query2() {
+async function query2(diseaseEntered) {
     class SPARQLQueryDispatcher {
         constructor( endpoint ) {
         this.endpoint = endpoint;
@@ -88,7 +88,6 @@ async function query2() {
         return fetch( fullUrl, { headers } ).then( body => body.json() );
     }
 }
-var diseaseEntered = 'Q567660';
 const endpointUrl = 'https://query.wikidata.org/sparql';
 var sparqlQuery = `SELECT ?symptom ?symptomLabel ?symptomDescription
                     WHERE {
@@ -100,8 +99,14 @@ sparqlQuery = sparqlQuery.replaceAll('DISEASE', diseaseEntered);
 const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
 return queryDispatcher.query( sparqlQuery );
 }
-async function main(){
-    result = await query2()
-    parser(result)
+async function main(diseaseEntered){
+    result = await query2(diseaseEntered)
+    parser(result)   
 }
-main()
+const selected = document.querySelector('.selector')
+    selected.addEventListener("input", (e) => {
+        var value = e.target.value
+        value = value.replace("http://www.wikidata.org/entity/", "")
+
+        main(value)
+    })
