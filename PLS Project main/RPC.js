@@ -1,5 +1,6 @@
 async function RPC(results) {
     document.getElementById("svg").innerHTML = ""
+    var currentIndex = null
     selectedSymptoms = []
 
     const symptoms = await parser(results)
@@ -13,7 +14,6 @@ async function RPC(results) {
     
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
 
     var data = new Array(symptoms.length);
     for (let i = 0; i < symptoms.length; i++) {
@@ -71,21 +71,7 @@ async function RPC(results) {
             // console log
 
             getInfo(d.data.symName, results);
-            
-            if (selectedSymptoms.includes(d.index)){
-                let index = selectedSymptoms.indexOf(d.index)
-                if (index > -1){
-                    selectedSymptoms.splice(index, 1)
-                }
-            }
-            else{
-                selectedSymptoms.push(d.index)
-            }
-            console.log(selectedSymptoms)
-            changeColour()
-        })
-        .on("hover", function (d) {
-            console.log("hi")
+            currentIndex = d.index
         });
 
     var text = arc.append("text")
@@ -96,19 +82,25 @@ async function RPC(results) {
     
     const selectorbutton = document.getElementById("select")
     selectorbutton.addEventListener("click", () =>{
-        console.log("help me!")
-        console.log(document.getElementsByClassName("help"))
-        for(let i = 0; i<document.getElementsByClassName("help").length;i++){
-            d3.select(document.getElementsByClassName("help")[i]).style("fill", "#ff0000")
+        if (selectedSymptoms.includes(currentIndex)){
+            let index = selectedSymptoms.indexOf(currentIndex)
+            if (index > -1){
+                selectedSymptoms.splice(index, 1)
+            }
         }
-        
+        else{
+            selectedSymptoms.push(currentIndex)
+        }
+        console.log(selectedSymptoms)
+        changeColour()  
     })
 }
 selectedSymptoms = []
 function changeColour(){
+    var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
     for(let i = 0; i<document.getElementsByClassName("help").length;i++){
         if (selectedSymptoms.includes(i)){
-            d3.select(document.getElementsByClassName("help")[i]).style("fill", "#fff000")
+            d3.select(document.getElementsByClassName("help")[i]).style("fill", color(i))
         }
         else{
             d3.select(document.getElementsByClassName("help")[i]).style("fill", "#C0C0C0")
