@@ -14,7 +14,7 @@ anychart.onDocumentReady(function () {
         value: 100,
         name: "Drugs to cure \nSymptom 3",
         custom_field: "Drug 7 \nDrug 8 \n Drug 9",
-        normal: {fill: "#8C72FF 0.5"}},
+        normal: {fill: "#8C72FF 0.7"}},
         {x: ["A", "C"],
         value: 25, 
         name: "Drugs to cure \nSymptoms 1&3",

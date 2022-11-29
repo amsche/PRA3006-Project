@@ -124,14 +124,15 @@ h3
     text-align: left;
     color: black;
 }
-
+/* for venn diagram  */
 #container {
-                width: 93%;
-                height: 93%;
-                margin: 0;
+                width: 500px;
+                height: 500px;
+                margin: auto;
                 padding: 0;
             }
-            .square1 {
+            /* for venn diagram legend */
+.square1 {
                 height: 20px;
                 width: 20px;
                 background-color: #7EE5B1;
@@ -154,6 +155,25 @@ h3
                 margin-bottom: 10px;
             }
             .textsymp {
+                width: 100px;
                 font-size: 15px;
                 padding-left: 40px;
             }
+
+.venn{
+    display: block;
+    height: 200px;
+    width: 200px;
+    color: rgb(234, 20, 20);
+}
+
+.body{
+    background-color: #edebe7;
+  }
+  .arc text {
+    font-family: Avenir;
+    font-size: 10px;
+    text-anchor: middle;
+  }
+  .arc path {
+    stroke: #F8FBFF;}

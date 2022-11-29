@@ -122,5 +122,6 @@ async function getInfo(symptom, results){
         }
     }
     document.getElementById("symptomDescription").innerHTML = symptom.symptomDescription.value
+    print(symptom.symptomDescription.value)
     console.log(symptom.symptomDescription.value)
 }
