@@ -1,4 +1,5 @@
 async function RPC(results) {
+    document.getElementById("svg").innerHTML = ""
     const symptoms = await parser(results)
 
     // document.getElementById("speechBubbleContainer").innerHTML = `<div id="speech-bubble" class="speech-bubble" ><p>Description:</p>
