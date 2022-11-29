@@ -1,11 +1,13 @@
-function RPC(symptopms) {
+async function RPC(results) {
+    const symptoms = await parser(results)
+
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
 
-    var data = new Array(symptopms.length);
-    for (let i = 0; i < symptopms.length; i++){
-        data[i] = { symName: symptopms[i], frequency: 1 } 
+    var data = new Array(symptoms.length);
+    for (let i = 0; i < symptoms.length; i++) {
+        data[i] = { symName: symptoms[i], frequency: 1 }
     }
 
 
@@ -59,7 +61,7 @@ function RPC(symptopms) {
                 .duration(1000);
 
             // console log 
-            console.log(d.data.symName);
+            getInfo(d.data.symName, results);
         });
 
     var text = arc.append("text")
@@ -67,46 +69,57 @@ function RPC(symptopms) {
         .attr("dy", "0.38em")
         .text(function (d) { return d.data.symName; });
 }
-async function parser(results){
+async function parser(results) {
     console.log(results.results.bindings)
     var symptoms = new Set
-        for (let i = 0; i < await results.results.bindings.length; i++) {
-            symptoms.add(results.results.bindings[i].symptomLabel.value)
-        }
+    for (let i = 0; i < await results.results.bindings.length; i++) {
+        symptoms.add(results.results.bindings[i].symptomLabel.value)
+    }
     symptoms = Array.from(symptoms)
-    RPC(symptoms)
+    return symptoms
 }
 async function query2(diseaseEntered) {
     class SPARQLQueryDispatcher {
-        constructor( endpoint ) {
-        this.endpoint = endpoint;
-    }
+        constructor(endpoint) {
+            this.endpoint = endpoint;
+        }
 
-    query( sparqlQuery ) {
-        const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
-        const headers = { 'Accept': 'application/sparql-results+json' };
-        return fetch( fullUrl, { headers } ).then( body => body.json() );
+        query(sparqlQuery) {
+            const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
+            const headers = { 'Accept': 'application/sparql-results+json' };
+            return fetch(fullUrl, { headers }).then(body => body.json());
+        }
     }
-}
-const endpointUrl = 'https://query.wikidata.org/sparql';
-var sparqlQuery = `SELECT ?symptom ?symptomLabel ?symptomDescription
+    const endpointUrl = 'https://query.wikidata.org/sparql';
+    var sparqlQuery = `SELECT ?symptom ?symptomLabel ?symptomDescription
                     WHERE {
                     wd:DISEASE wdt:P780 ?symptom.
                     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
                     }`;
-sparqlQuery = sparqlQuery.replaceAll('DISEASE', diseaseEntered);
+    sparqlQuery = sparqlQuery.replaceAll('DISEASE', diseaseEntered);
 
-const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
-return queryDispatcher.query( sparqlQuery );
+    const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
+    return queryDispatcher.query(sparqlQuery);
 }
-async function main(diseaseEntered){
+async function main(diseaseEntered) {
     result = await query2(diseaseEntered)
-    parser(result)   
+    RPC(result)
 }
 const selected = document.querySelector('.selector')
-    selected.addEventListener("input", (e) => {
-        var value = e.target.value
-        value = value.replace("http://www.wikidata.org/entity/", "")
+selected.addEventListener("input", (e) => {
+    var value = e.target.value
+    value = value.replace("http://www.wikidata.org/entity/", "")
 
-        main(value)
-    })
+    main(value)
+})
+
+async function getInfo(symptom, results){
+
+    for (let i = 0; i < await results.results.bindings.length; i++) {
+        if (symptom ===results.results.bindings[i].symptomLabel.value){
+            symptom = results.results.bindings[i]
+            break
+        }
+    }
+    console.log(symptom.symptomDescription.value)
+}
