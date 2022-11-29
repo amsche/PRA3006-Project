@@ -1,11 +1,12 @@
 async function RPC(results) {
     const symptoms = await parser(results)
 
-    document.getElementById("speechBubbleContainer").innerHTML = `<div id="speech-bubble" class="speech-bubble" ><p>Description:</p>
-    <p>
-        <div id="symptomDescription" ></div>
-    </p>
-    </div>`
+    // document.getElementById("speechBubbleContainer").innerHTML = `<div id="speech-bubble" class="speech-bubble" ><p>Description:</p>
+    // <p>
+    //     <div id="symptomDescription" ></div>
+    // </p>
+    // </div>`
+
     
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
@@ -40,6 +41,7 @@ async function RPC(results) {
 
     arc.append("path")
         .attr("d", path)
+        .attr("class", "help")
         .attr("fill", "#C0C0C0")
         .attr("text-anchor", function (d) {
             // are we past the center?
@@ -64,13 +66,20 @@ async function RPC(results) {
                 .duration(1250);
 
             // console log
-            //d3.select.style("fill", "#C0C0C0")
-            d3.selectAll(this).style("fill", "#C0C0C0")
+
             getInfo(d.data.symName, results);
-            d3.select(this).style("fill", color(this))
-            // changeColour(d)
-            // arc.fill()
             
+            if (selectedSymptoms.includes(d.index)){
+                let index = selectedSymptoms.indexOf(d.index)
+                if (index > -1){
+                    selectedSymptoms.splice(index, 1)
+                }
+            }
+            else{
+                selectedSymptoms.push(d.index)
+            }
+            console.log(selectedSymptoms)
+            changeColour()
         });
 
     var text = arc.append("text")
@@ -78,9 +87,27 @@ async function RPC(results) {
         .attr("dy", "0.38em")
         .attr("font-family", "Brandon-Grotesque-Font-Family")
         .text(function (d) { return d.data.symName; });
+    
+    const selectorbutton = document.getElementById("select")
+    selectorbutton.addEventListener("click", () =>{
+        console.log("help me!")
+        console.log(document.getElementsByClassName("help"))
+        for(let i = 0; i<document.getElementsByClassName("help").length;i++){
+            d3.select(document.getElementsByClassName("help")[i]).style("fill", "#ff0000")
+        }
+        
+    })
 }
-function changeColour(arc){
-    console.log(arc)
+selectedSymptoms = []
+function changeColour(){
+    for(let i = 0; i<document.getElementsByClassName("help").length;i++){
+        if (selectedSymptoms.includes(i)){
+            d3.select(document.getElementsByClassName("help")[i]).style("fill", "#fff000")
+        }
+        else{
+            d3.select(document.getElementsByClassName("help")[i]).style("fill", "#C0C0C0")
+        }
+    }
 }
 
 async function parser(results) {

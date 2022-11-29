@@ -37,6 +37,8 @@
             <form class="form">
                 <input id="searchbar" type="text" class="input" placeholder="Enter an infectious disease"/>
                 <div id="dropdown" class="selector"></div>
+                <button id="searchbutton" class="search" type="button">&#128269</button>
+                <button id="clear" class="clear-results" type="button">Clear</button>
                 <button id="random" class="randomselection" type="button">Show Example</button>           
             </form>
 
@@ -53,12 +55,12 @@
         </section>
 
         <section>
+            <button id="select" class="select">I am a button</button>
             <svg width="960" height="600"></svg>
-            <div id="speechBubbleContainer"></div>
+            <div id="symptomDescription" ></div>
             <script src="https://d3js.org/d3.v4.min.js"></script>
             <script src="RPC.js"></script>
         </section>
-    
         <section>
             <div id="container" class="venn"></div>
         <script src="venn.js"></script>
