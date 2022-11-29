@@ -124,6 +124,40 @@ h3
     text-align: left;
     color: black;
 }
+
+/* for speech bubble  */
+.speech-bubble {
+    display: block;
+    background-color: #c0c0c0;
+    border-radius: 20px;
+    width: 200px;
+    height: 330px;
+    position: absolute;
+    top: 49em;
+    right: 7em;
+    text-align: center;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 40px solid transparent;
+	border-right-color: #c0c0c0;
+	border-left: 0;
+	margin-top: -40px;
+	margin-left: -40px;
+}
+
+#symptomDescription {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+}
+
 /* for venn diagram  */
 #container {
                 width: 500px;

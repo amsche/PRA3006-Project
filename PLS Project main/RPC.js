@@ -1,6 +1,12 @@
 async function RPC(results) {
     const symptoms = await parser(results)
 
+    document.getElementById("speechBubbleContainer").innerHTML = `<div id="speech-bubble" class="speech-bubble" ><p>Description:</p>
+    <p>
+        <div id="symptomDescription" ></div>
+    </p>
+    </div>`
+    
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
