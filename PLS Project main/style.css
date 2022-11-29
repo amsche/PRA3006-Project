@@ -202,7 +202,8 @@ h3
 }
 
 .hdiw {
-text-align=left;}
+text-align: left;
+padding: 50px;}
 
 .HDIWGraphic{
 width: 100%;}
