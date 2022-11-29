@@ -23,23 +23,14 @@
         </nav>
     
         <section class = welcome>
-            <br />
-            <br />
-            <br />
-            <br />
             <h1 class="Welcome">WELCOME TO <br /> X-CHECK</h1>
             <h2 class="description">Checking infectious disease treatments</h2> 
-            <br />
-            <br />
-            <br />
         </section>
 
         <section class = sb>
             <form class="form">
                 <input id="searchbar" type="text" class="input" placeholder="Enter an infectious disease"/>
                 <div id="dropdown" class="selector"></div>
-                <button id="searchbutton" class="search" type="button">&#128269</button>
-                <button id="clear" class="clear-results" type="button">Clear</button>
                 <button id="random" class="randomselection" type="button">Show Example</button>           
             </form>
 
@@ -49,16 +40,13 @@
                 <ul class="results-list" id="list">
                 </ul>
             </div>
-            <br />
-            <br />
-            <br />
             <script src="Searchbar2.js"></script>
         </section>
 
         <section>
-            <button id="select" class="select">I am a button</button>
+            <button id="select" class="select">Select</button>
             <svg id="svg" width="960" height="600"></svg>
-            <div id="symptomDescription" ></div>
+            <div id="speechBubbleContainer"></div>
             <script src="https://d3js.org/d3.v4.min.js"></script>
             <script src="RPC.js"></script>
         </section>
