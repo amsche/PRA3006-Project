@@ -3,124 +3,120 @@
     src: url('Fonts/brandon-grotesque-light-58a8a4b38001d.otf');
 }
 
-a 
-{ 
-    text-decoration:none; 
+a {
+    text-decoration: none;
     color: #2A7C6F;
-} 
+}
 
-.LogoXCheck 
-{
+.LogoXCheck {
     display: block;
-    width : 200px;
-    height : auto;
+    width: 200px;
+    height: auto;
     margin: auto;
 }
-.LogoMSP
-{
+
+.LogoMSP {
     display: block;
-    width : 100px;
-    height : auto;
-    margin : auto;
+    width: 100px;
+    height: auto;
+    margin: auto;
 }
-.GraphDemo
-{
+
+.GraphDemo {
     display: block;
-    width : 1000px;
-    height : auto;
-    margin : auto;
+    width: 1000px;
+    height: auto;
+    margin: auto;
 }
-section
-{
+
+section {
     font-family: Avenir Light, sans-serif;
     text-align: center;
     font-size: 20px;
-    color : #2A7C6F;
+    color: #2A7C6F;
 }
-nav
-{
+
+nav {
     font-family: Avenir Light, sans-serif;
     text-align: center;
     font-size: 14px;
-    color : #2A7C6F;
+    color: #2A7C6F;
     display: flex;
     justify-content: space-around;
     width: 400px;
     margin: auto;
 }
-hr
-{
+
+hr {
     display: block;
     float: center;
     margin-right: 100px;
     margin-left: 100px;
 }
-h1
-{
+
+h1 {
     font-family: 'Brandon-Grotesque-Font-Family', Avenir Light, sans-serif;
     text-align: center;
     font-size: 72px;
-    color : #2A7C6F;
+    color: #2A7C6F;
 }
-h2
-{
+
+h2 {
     font-family: Avenir Light, sans-serif;
     text-align: center;
     font-size: 20px;
-    color : #2A7C6F;
+    color: #2A7C6F;
 }
-h3
-{
+
+h3 {
     font-family: Avenir Light, sans-serif;
     text-align: center;
     font-size: 14px;
-    color : #2A7C6F;
+    color: #2A7C6F;
 }
-.Searchbar 
-{
+
+.Searchbar {
     display: block;
-    width : 800px;
-    height : auto;
+    width: 800px;
+    height: auto;
     margin: auto;
 }
 
 /* Search bar design*/
-.form
-{
-    width : auto;
+.form {
+    width: auto;
     max-width: 900px;
-    height : auto;
-    margin : auto;
+    height: auto;
+    margin: auto;
     text-align: center;
 }
-.input
-{
+
+.input {
     width: 80%;
     padding: 10px;
     padding-left: 20px;
     font-family: Avenir;
     font-size: 20px;
     border-radius: 30px;
-    border-style: solid ;
+    border-style: solid;
     border-width: 1px;
     border-color: rgb(199, 198, 198);
 }
-.search
-{
+
+.search {
     width: auto;
     font-family: Avenir;
     font-size: 20px;
     border-style: none;
-    background-color : white ;
+    background-color: white;
     position: center;
 }
 
-.results-container
-{
-    width : auto;
+.results-container {
+    width: auto;
     max-width: 800px;
-    height : auto;
-    margin : auto;
+    height: auto;
+    margin: auto;
     text-align: left;
     color: black;
 }
@@ -139,17 +135,17 @@ h3
 }
 
 .speech-bubble:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 50%;
-	width: 0;
-	height: 0;
-	border: 40px solid transparent;
-	border-right-color: #c0c0c0;
-	border-left: 0;
-	margin-top: -40px;
-	margin-left: -40px;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 40px solid transparent;
+    border-right-color: #c0c0c0;
+    border-left: 0;
+    margin-top: -40px;
+    margin-left: -40px;
 }
 
 #symptomDescription {
@@ -160,41 +156,45 @@ h3
 
 /* for venn diagram  */
 #container {
-                width: 500px;
-                height: 500px;
-                margin: auto;
-                padding: 0;
-            }
-            /* for venn diagram legend */
-.square1 {
-                height: 20px;
-                width: 20px;
-                background-color: #7EE5B1;
-                margin-top: 20px;
-                margin-left: 200px;
-                margin-bottom: 10px;
-            }
-            .square2 {
-                height: 20px;
-                width: 20px;
-                background-color: #72B6FF;
-                margin-left: 200px;
-                margin-bottom: 10px;
-            }
-            .square3 {
-                height: 20px;
-                width: 20px;
-                background-color: #8C72FF;
-                margin-left: 200px;
-                margin-bottom: 10px;
-            }
-            .textsymp {
-                width: 100px;
-                font-size: 15px;
-                padding-left: 40px;
-            }
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    padding: 0;
+}
 
-.venn{
+/* for venn diagram legend */
+.square1 {
+    height: 20px;
+    width: 20px;
+    background-color: #7EE5B1;
+    margin-top: 20px;
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+
+.square2 {
+    height: 20px;
+    width: 20px;
+    background-color: #72B6FF;
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+
+.square3 {
+    height: 20px;
+    width: 20px;
+    background-color: #8C72FF;
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+
+.textsymp {
+    width: 100px;
+    font-size: 15px;
+    padding-left: 40px;
+}
+
+.venn {
     display: block;
     height: 200px;
     width: 200px;
@@ -202,19 +202,37 @@ h3
 }
 
 .hdiw {
-text-align: left;
-padding: 50px;}
+    text-align: left;
+    padding: 50px;
+}
 
-.HDIWGraphic{
-width: 100%;}
+.HDIWGraphic {
+    width: 100%;
+}
 
-.body{
+.body {
     background-color: #edebe7;
-  }
-  .arc text {
+}
+
+.arc text {
     font-family: Avenir;
     font-size: 10px;
     text-anchor: middle;
-  }
-  .arc path {
-    stroke: #F8FBFF;}
+}
+
+.arc path {
+    stroke: #F8FBFF;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.container .flex-column-left {
+    flex-grow: 2;
+}
+
+.container .flex-column-right {
+    /** just in case you want to add some custom styles **/
+}
