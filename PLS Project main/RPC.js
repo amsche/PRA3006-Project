@@ -1,5 +1,7 @@
 async function RPC(results) {
     document.getElementById("svg").innerHTML = ""
+    selectedSymptoms = []
+
     const symptoms = await parser(results)
 
     // document.getElementById("speechBubbleContainer").innerHTML = `<div id="speech-bubble" class="speech-bubble" ><p>Description:</p>
@@ -81,6 +83,9 @@ async function RPC(results) {
             }
             console.log(selectedSymptoms)
             changeColour()
+        })
+        .on("hover", function (d) {
+            console.log("hi")
         });
 
     var text = arc.append("text")
