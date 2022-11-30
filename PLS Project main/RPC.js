@@ -27,7 +27,7 @@ async function RPC(results) {
     }
 
 
-
+    //WARNING following section contains a lot of incomprehensible varable names. It was copied hope for change
     // creates the parts needed for the RPC
     var pie = d3.pie()
         .sort(null)
@@ -101,7 +101,7 @@ async function RPC(results) {
     })
 }
 
-selectedSymptoms = [] //sorry for the spagetti code this should be somewhere else
+selectedSymptoms = [] //sorry for the spagetti code this should be somewhere else @todo
 
 //changes the colour of each element with the help (needs to change) class
 function changeColour(){

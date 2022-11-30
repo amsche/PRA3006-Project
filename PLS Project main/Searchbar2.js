@@ -61,7 +61,8 @@ async function main() {
         }
     })
 
-    //establishes the rendom button (show example)
+    //establishes the rendom button (show example) 
+    //@todo does not immediately generate piechart which it really should
     const randomButton = document.getElementById('random')
     randomButton.addEventListener("click", () => {
         let selected = diseases[Math.floor(Math.random() * diseases.length)].name //selects a random disease
@@ -84,8 +85,8 @@ async function main() {
         var dropdown = "<select>"
 
         //fixes an issue with the first element being unselectable
-        if(results&&results-length>0){
-            dropdown += "<option value=\"diabled selected\">Select your Disease</option>"
+        if(results&&results.length>0){
+            dropdown += "<option value=\""+null +"\">Select your Disease</option>"
         }
 
         //creates an option for every disease that matches the searchbar input
