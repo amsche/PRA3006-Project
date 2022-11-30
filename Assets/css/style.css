@@ -214,6 +214,11 @@ h3 {
     background-color: #edebe7;
 }
 
+.select {
+    position: absolute;
+    
+}
+
 .arc text {
     font-family: Avenir;
     font-size: 10px;

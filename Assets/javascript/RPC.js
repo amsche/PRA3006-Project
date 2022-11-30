@@ -1,3 +1,4 @@
+// import { __init_venn} from "./venn.js";
 //generates the RPC
 async function RPC(results) {
     // below is book keeping to ensure the data is clean before now constructions occur
@@ -80,6 +81,7 @@ async function RPC(results) {
         });
     //again just copied from the collection
     var text = arc.append("text")
+        .attr("class", "arcText")
         .attr("transform", function (d) { return "translate(" + label.centroid(d) + ")"; })
         .attr("dy", "0.38em")
         .text(function (d) { return d.data.symName; });
@@ -96,8 +98,9 @@ async function RPC(results) {
         else{
             selectedSymptoms.push(currentIndex)//otherwise adds it to the array
         }
-        console.log(selectedSymptoms)
+        //console.log(selectedSymptoms)
         changeColour()  //then updates the colours 
+        constructVenn(results)
     })
 }
 
@@ -179,4 +182,24 @@ async function getInfo(symptom, results){
     }
     document.getElementById("symptomDescription").innerHTML = symptom.symptomDescription.value //updates the value in html
     //console.log(symptom.symptomDescription.value)
+}
+
+//
+async function constructVenn(results){
+    var symptoms = []
+    var symptomIDs =[]
+    for(let i = 0; i<document.getElementsByClassName("arcText").length;i++){ //loops through each element with help class
+        if (selectedSymptoms.includes(i)){
+            symptoms.push(document.getElementsByClassName("arcText")[i].innerHTML)
+        }
+    }
+
+    for (let i = 0; i < await results.results.bindings.length; i++) {
+        if (symptoms.includes(results.results.bindings[i].symptomLabel.value)){
+            symptomIDs.push(results.results.bindings[i].symptom.value.replace("http://www.wikidata.org/entity/", ""))
+        }
+    }
+
+
+    await __init_venn(symptomIDs)
 }
