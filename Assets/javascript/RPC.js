@@ -45,7 +45,7 @@ async function RPC(results) {
     var arc = g.selectAll(".arc")
         .data(pie(data))
         .enter().append("g")
-        .attr("class", "arc"); 
+        .attr("class", "arc");
 
 
     //most edited part of the code from the d3 collection
@@ -88,33 +88,34 @@ async function RPC(results) {
 
     //establishes the select button
     const selectorbutton = document.getElementById("select")
-    selectorbutton.addEventListener("click", () =>{
-        if (selectedSymptoms.includes(currentIndex)){ //checks if the current index (section on right) is selected
+    selectorbutton.addEventListener("click", () => {
+        if (selectedSymptoms.includes(currentIndex)) { //checks if the current index (section on right) is selected
             let index = selectedSymptoms.indexOf(currentIndex)
-            if (index > -1){
+            if (index > -1) {
                 selectedSymptoms.splice(index, 1)//if true removes it from the array of selected symptoms
             }
         }
-        else{
+        else {
             selectedSymptoms.push(currentIndex)//otherwise adds it to the array
         }
         //console.log(selectedSymptoms)
         changeColour()  //then updates the colours 
-        constructVenn(results)
+        if (selectedSymptoms.length > 1) {
+            constructVenn(results)
+        }
     })
 }
 
 selectedSymptoms = [] //sorry for the spagetti code this should be somewhere else @todo
-
+var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
 //changes the colour of each element with the help (needs to change) class
-function changeColour(){
+function changeColour() {
     //creates a colour space according to our specifications (mint green to purple)
-    var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]);
-    for(let i = 0; i<document.getElementsByClassName("help").length;i++){ //loops through each element with help class
-        if (selectedSymptoms.includes(i)){ //if included fills it a colour
+    for (let i = 0; i < document.getElementsByClassName("help").length; i++) { //loops through each element with help class
+        if (selectedSymptoms.includes(i)) { //if included fills it a colour
             d3.select(document.getElementsByClassName("help")[i]).style("fill", color(i))
         }
-        else{ //else colours it the default colour
+        else { //else colours it the default colour
             d3.select(document.getElementsByClassName("help")[i]).style("fill", "#C0C0C0")
         }
     }
@@ -172,10 +173,10 @@ selected.addEventListener("input", (e) => {
 })
 
 // takes a symptom name and the results object to produce the symptom descripion
-async function getInfo(symptom, results){
+async function getInfo(symptom, results) {
 
     for (let i = 0; i < await results.results.bindings.length; i++) {
-        if (symptom ===results.results.bindings[i].symptomLabel.value){
+        if (symptom === results.results.bindings[i].symptomLabel.value) {
             symptom = results.results.bindings[i]
             break // to prevent unneccesary run time
         }
@@ -184,22 +185,29 @@ async function getInfo(symptom, results){
     //console.log(symptom.symptomDescription.value)
 }
 
-//
-async function constructVenn(results){
+// I am so sorry to anyone reading this function
+async function constructVenn(results) {
+    var selectedSymptomNames = []
     var symptoms = []
-    var symptomIDs =[]
-    for(let i = 0; i<document.getElementsByClassName("arcText").length;i++){ //loops through each element with help class
-        if (selectedSymptoms.includes(i)){
-            symptoms.push(document.getElementsByClassName("arcText")[i].innerHTML)
+    for (let i = 0; i < document.getElementsByClassName("arcText").length; i++) { //loops through each element with help class
+        if (selectedSymptoms.includes(i)) {
+            selectedSymptomNames.push({
+                name: document.getElementsByClassName("arcText")[i].innerHTML,
+                colour: color(i)
+            })
         }
     }
 
     for (let i = 0; i < await results.results.bindings.length; i++) {
-        if (symptoms.includes(results.results.bindings[i].symptomLabel.value)){
-            symptomIDs.push(results.results.bindings[i].symptom.value.replace("http://www.wikidata.org/entity/", ""))
+        for (let j = 0; j < selectedSymptomNames.length; j++) {
+            if (selectedSymptomNames[j].name === results.results.bindings[i].symptomLabel.value) {
+                symptoms.push({
+                    ID: results.results.bindings[i].symptom.value.replace("http://www.wikidata.org/entity/", ""),
+                    Name: results.results.bindings[i].symptomLabel.value,
+                    Colour: selectedSymptomNames[j].colour
+                })
+            }
         }
     }
-
-
-    await __init_venn(symptomIDs)
+    await __init_venn(symptoms)
 }
