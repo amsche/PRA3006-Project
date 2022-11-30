@@ -1,13 +1,13 @@
-async function __init_venn(symptoms){
+async function __init_venn(symptoms) {
     class SPARQLQueryDispatcher {
-        constructor( endpoint ) {
+        constructor(endpoint) {
             this.endpoint = endpoint;
         }
-    
-        query( sparqlQuery ) {
-            const fullUrl = this.endpoint + '?query=' + encodeURIComponent( sparqlQuery );
+
+        query(sparqlQuery) {
+            const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
             const headers = { 'Accept': 'application/sparql-results+json' };
-            return fetch( fullUrl, { headers } ).then( body => body.json() );
+            return fetch(fullUrl, { headers }).then(body => body.json());
         }
     }
     const endpointUrl = 'https://query.wikidata.org/sparql';
@@ -17,35 +17,106 @@ async function __init_venn(symptoms){
                         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
                         }`;
     result = []
-    for(let i in symptoms){
+    for (let i in symptoms) {
         var temp = sparqlQuery.replace('SYMPTOM', symptoms[i].ID);
         console.log(temp)
-        const queryDispatcher = new SPARQLQueryDispatcher( endpointUrl );
-        temp = (await queryDispatcher.query( temp ))
+        const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
+        temp = (await queryDispatcher.query(temp))
         drugs = []
-        for (let j in temp.results.bindings){
+        for (let j in temp.results.bindings) {
             drugs.push(temp.results.bindings[j].drugLabel.value)
         }
-        result.push({symptom: symptoms[i].Name, treatment: drugs, color: symptoms[i].Colour})
+        result.push({ symptom: symptoms[i].Name, treatment: drugs, colour: symptoms[i].Colour })
     }
     console.log(result)
+    //Next generate the data
+    var alldata = []
+    for (let i in result) {
+        for (let j in result[i].treatment) {
+            alldata.push({
+                treatment: result[i].treatment[j],
+                symptom: result[i].symptom,
+                colour: result[i].colour
+            })
+        }
+    }
+    console.log(alldata)
 
+    var compresseddata = []
+    for (let i in alldata) {
+        check = true
+        for (let j in compresseddata) {
+            if (alldata[i].treatment === compresseddata[j].treatment) {
+                compresseddata[j].symptom.push(alldata[i].symptom)
+                check = false
+            }
+        }
+        if (check) {
+            compresseddata.push({
+                treatment: alldata[i].treatment,
+                symptom: [alldata[i].symptom],
+                colour: alldata[i].colour
+            })
+        }
+    }
+    console.log(compresseddata)
+
+    function arraysEqual(a, b) {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;
+
+        a.sort()
+        b.sort()
+
+        for (var i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    }
+
+    var morecompresseddata = []
+    for (let i in compresseddata) {
+        check = true
+        for (let j in morecompresseddata) {
+            if (arraysEqual(compresseddata[i].symptom, morecompresseddata[j].symptom)) {
+                morecompresseddata[j].treatment.push(compresseddata[i].treatment)
+                check = false
+            }
+        }
+        if (check) {
+            morecompresseddata.push({
+                treatment: [compresseddata[i].treatment],
+                symptom: compresseddata[i].symptom,
+                colour: compresseddata[i].colour
+            })
+        }
+    }
+    console.log(morecompresseddata)
+
+    //make the chart
     anychart.onDocumentReady(function () {
         var data = [
-            {x: "A",
-            value: 100,
-            name: "Drugs to cure \nSymptom 1",
-            custom_field: "Drug 1 \nDrug 2 \n Drug 3",
-            normal: {fill: "#7EE5B1 0.7"},},
-            {x: "B",
-            value: 100,
-            name: "Drugs to cure \nSymptom 2",
-            custom_field: "Drug 4 \nDrug 5 \n Drug 6",
-            normal: {fill: "#72B6FF 0.7"}},
-            {x: ["A", "B"],
-            value: 25,
-            name: "Drugs to cure \nSymptoms 1&2",
-            custom_field: "Drug 12 \nDrug 13"}
+            {
+                x: "A",
+                value: 100,
+                name: "Drugs to cure \nSymptom 1",
+                custom_field: "Drug 1 \nDrug 2 \n Drug 3",
+                normal: { fill: "#7EE5B1 0.7" },
+            },
+            {
+                x: "B",
+                value: 100,
+                name: "Drugs to cure \nSymptom 2",
+                custom_field: "Drug 4 \nDrug 5 \n Drug 6",
+                normal: { fill: "#72B6FF 0.7" }
+            },
+            {
+                x: ["A", "B"],
+                value: 25,
+                name: "Drugs to cure \nSymptoms 1&2",
+                custom_field: "Drug 12 \nDrug 13"
+            }
         ];
         var chart = anychart.venn(data);
         chart.container("container");
@@ -55,5 +126,5 @@ async function __init_venn(symptoms){
         chart.legend(false);
         chart.tooltip(false);
     });
-    
+
 }
