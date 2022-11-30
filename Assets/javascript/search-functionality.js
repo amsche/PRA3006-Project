@@ -1,4 +1,3 @@
-//query from wikidata
 class SPARQLQueryDispatcher {
     constructor(endpoint) {
         this.endpoint = endpoint;
