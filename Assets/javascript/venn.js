@@ -31,6 +31,7 @@ async function __init_venn(symptoms) {
     }
     console.log(result)
     //Next generate the data
+    //this part puts all the data into a single array. each treatment is its own element (stored with symptom and colour)
     var alldata = []
     for (let i in result) {
         for (let j in result[i].treatment) {
@@ -43,6 +44,7 @@ async function __init_venn(symptoms) {
     }
     console.log(alldata)
 
+    //this makes all the treatments unique in the array and introduces multimple symptoms it may treat
     var compresseddata = []
     for (let i in alldata) {
         check = true
@@ -76,6 +78,7 @@ async function __init_venn(symptoms) {
         return true;
     }
 
+    //this puts all the treatments that treat the same set of symptoms into an array
     var morecompresseddata = []
     for (let i in compresseddata) {
         check = true
@@ -94,7 +97,8 @@ async function __init_venn(symptoms) {
         }
     }
     console.log(morecompresseddata)
-
+    // congratulations the data is nearly in the right format for the venn diagram
+    
     //make the chart
     anychart.onDocumentReady(function () {
         var data = [
