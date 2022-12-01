@@ -1,4 +1,5 @@
 async function __init_venn(symptoms) {
+    document.getElementById("container").innerHTML = ""
     class SPARQLQueryDispatcher {
         constructor(endpoint) {
             this.endpoint = endpoint;
