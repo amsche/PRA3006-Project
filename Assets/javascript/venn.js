@@ -69,7 +69,7 @@ async function __init_venn(symptoms) {
         if (a == null || b == null) return false;
         if (a.length !== b.length) return false;
 
-        a.sort()
+        a.sort() // be carefull with these if you care about the ordering of your arrays
         b.sort()
 
         for (var i = 0; i < a.length; ++i) {
@@ -98,31 +98,40 @@ async function __init_venn(symptoms) {
     }
     console.log(morecompresseddata)
     // congratulations the data is nearly in the right format for the venn diagram
-    
+    var data = []
+    for(let i in morecompresseddata){
+        data.push({
+            x: morecompresseddata[i].symptom,
+            value: 15*morecompresseddata[i].treatment.length+25,
+            name: "Drugs to cure \n" + morecompresseddata[i].symptom,
+            custom_field: morecompresseddata[i].treatment,
+            normal: { fill: morecompresseddata[i].color }, 
+        })
+    }
     //make the chart
     anychart.onDocumentReady(function () {
-        var data = [
-            {
-                x: "A",
-                value: 100,
-                name: "Drugs to cure \nSymptom 1",
-                custom_field: "Drug 1 \nDrug 2 \n Drug 3",
-                normal: { fill: "#7EE5B1 0.7" },
-            },
-            {
-                x: "B",
-                value: 100,
-                name: "Drugs to cure \nSymptom 2",
-                custom_field: "Drug 4 \nDrug 5 \n Drug 6",
-                normal: { fill: "#72B6FF 0.7" }
-            },
-            {
-                x: ["A", "B"],
-                value: 25,
-                name: "Drugs to cure \nSymptoms 1&2",
-                custom_field: "Drug 12 \nDrug 13"
-            }
-        ];
+        // var data = [
+        //     {
+        //         x: "A",
+        //         value: 100,
+        //         name: "Drugs to cure \nSymptom 1",
+        //         custom_field: "Drug 1 \nDrug 2 \n Drug 3",
+        //         normal: { fill: "#7EE5B1 0.7" },
+        //     },
+        //     {
+        //         x: "B",
+        //         value: 100,
+        //         name: "Drugs to cure \nSymptom 2",
+        //         custom_field: "Drug 4 \nDrug 5 \n Drug 6",
+        //         normal: { fill: "#72B6FF 0.7" }
+        //     },
+        //     {
+        //         x: ["A", "B"],
+        //         value: 25,
+        //         name: "Drugs to cure \nSymptoms 1&2",
+        //         custom_field: "Drug 12 \nDrug 13"
+        //     }
+        // ];
         var chart = anychart.venn(data);
         chart.container("container");
         chart.draw();
