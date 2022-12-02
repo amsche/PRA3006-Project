@@ -218,8 +218,7 @@ async function constructVenn(results) {
     await __init_venn(symptoms)
 }
 function setName(name){
-    console.log(name)
-    document.getElementById("title").innerHTML = name
+    document.getElementById("title").innerHTML = capitalizeFirstLetter(name)
   }  
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
