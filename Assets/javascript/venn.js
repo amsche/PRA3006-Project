@@ -118,6 +118,7 @@ async function __init_venn(symptoms) {
         chart.listen("pointClick", function(e) {
             index = e.iterator.getIndex()
             setTList(index);
+            console.log(index)
         })
     });
     function setTList(index) {

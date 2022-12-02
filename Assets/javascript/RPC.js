@@ -103,8 +103,11 @@ async function RPC(results) {
         }
         //console.log(selectedSymptoms)
         changeColour()  //then updates the colours 
-        if (selectedSymptoms.length > 1) {
+        if (selectedSymptoms.length > 0) {
             constructVenn(results)
+        }
+        else{
+            document.getElementById("container").innerHTML = ""
         }
     })
 }
