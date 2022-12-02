@@ -130,7 +130,7 @@ async function parser(results) {
     //console.log(results.results.bindings)
     var symptoms = new Set //new set to make sure everything is unique
     for (let i = 0; i < await results.results.bindings.length; i++) {
-        symptoms.add((capitalizeFirstLetter(results.results.bindings[i].symptomLabel.value))
+        symptoms.add((capitalizeFirstLetter(results.results.bindings[i].symptomLabel.value)))
     }
     return Array.from(symptoms)
 }
