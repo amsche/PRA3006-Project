@@ -102,10 +102,10 @@ async function __init_venn(symptoms) {
     for(let i in morecompresseddata){
         data.push({
             x: morecompresseddata[i].symptom,
-            value: 15*morecompresseddata[i].treatment.length+25,
+            value: morecompresseddata[i].treatment.length,
             name: "Drugs to cure \n" + morecompresseddata[i].symptom,
-            custom_field: morecompresseddata[i].treatment,
-            normal: { fill: morecompresseddata[i].color }, 
+            custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "\n"),
+            normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}), 
         })
     }
     //make the chart
@@ -135,10 +135,15 @@ async function __init_venn(symptoms) {
         var chart = anychart.venn(data);
         chart.container("container");
         chart.draw();
-        chart.labels().format("{%custom_field}");
+        chart.labels().format("{%x}");
+        chart.labels().fontColor("#000")
         chart.stroke('1 #fff');
         chart.legend(false);
-        chart.tooltip(false);
+        chart.tooltip(true);
+        chart.listen("pointClick", function(e) {
+            const index = e.iterator.getIndex()
+            console.log(data[index].custom_field)
+        })
     });
 
 }
