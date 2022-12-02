@@ -169,9 +169,9 @@ async function __init_RPC(diseaseEntered) {
 //creates an eventlistener for the dropdown menu for diseases uses the input as the entered diseas for the query
 const selected = document.querySelector('.selector')
 selected.addEventListener("input", (e) => {
-    var value = e.target.value
+    var value = e.target.value.split(",")[0]
     value = value.replace("http://www.wikidata.org/entity/", "")
-
+    setName ( e.target.value.split(",")[1])
     __init_RPC(value)
 })
 
@@ -214,3 +214,7 @@ async function constructVenn(results) {
     }
     await __init_venn(symptoms)
 }
+function setName(name){
+    console.log(name)
+    document.getElementById("title").innerHTML = name
+  }  

@@ -83,9 +83,9 @@ async function main() {
 
     //generates the dropdown menu
     function setDropdown(results) {
-        console.log(results.length)
         if (results.length == 1){
             __init_RPC(results[0].ID.replace("http://www.wikidata.org/entity/", ""))
+            setName(results[0].name)
             return
         }
         clearList()
@@ -98,10 +98,9 @@ async function main() {
 
         //creates an option for every disease that matches the searchbar input
         for (let i = 0; i < results.length; i++) {
-            dropdown += "<option value=\"" + results[i].ID + "\">" + results[i].name + "</option>"
+            dropdown += "<option value=\"" +results[i].ID +"," +results[i].name + "\">" + results[i].name + "</option>\n"
         }
         dropdown += "</select>"
-
         //updates the dropdown in the html
         document.getElementById("dropdown").innerHTML = dropdown
 
