@@ -182,7 +182,7 @@ selected.addEventListener("input", (e) => {
 async function getInfo(symptom, results) {
 
     for (let i = 0; i < await results.results.bindings.length; i++) {
-        if (symptom === results.results.bindings[i].symptomLabel.value) {
+        if (symptom.toUpperCase() === results.results.bindings[i].symptomLabel.value.toUpperCase()) {
             symptom = results.results.bindings[i]
             break // to prevent unneccesary run time
         }
@@ -224,4 +224,14 @@ function setName(name){
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  
+
+function colorF(number){
+    //["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]
+    var green = parseInt("72FFC3", 16)
+    var purple = parseInt("8C72FF", 16)
+    var diff = (purple-green)/Math.max(selectedSymptoms.length,1)
+    var c = green + number*diff
+    return "#"+c.toString(16)
+
+}
+colorF(1)
