@@ -130,7 +130,7 @@ async function parser(results) {
     //console.log(results.results.bindings)
     var symptoms = new Set //new set to make sure everything is unique
     for (let i = 0; i < await results.results.bindings.length; i++) {
-        symptoms.add(results.results.bindings[i].symptomLabel.value)
+        symptoms.add((capitalizeFirstLetter(results.results.bindings[i].symptomLabel.value))
     }
     return Array.from(symptoms)
 }
@@ -203,7 +203,7 @@ async function constructVenn(results) {
 
     for (let i = 0; i < await results.results.bindings.length; i++) {
         for (let j = 0; j < selectedSymptomNames.length; j++) {
-            if (selectedSymptomNames[j].name === results.results.bindings[i].symptomLabel.value) {
+            if (selectedSymptomNames[j].name === capitalizeFirstLetter(results.results.bindings[i].symptomLabel.value)) {
                 symptoms.push({
                     ID: results.results.bindings[i].symptom.value.replace("http://www.wikidata.org/entity/", ""),
                     Name: results.results.bindings[i].symptomLabel.value,
@@ -214,3 +214,7 @@ async function constructVenn(results) {
     }
     await __init_venn(symptoms)
 }
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  
