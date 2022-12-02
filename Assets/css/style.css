@@ -129,7 +129,7 @@ h3 {
     width: 200px;
     height: 330px;
     position: absolute;
-    top: 49em;
+    top: 35em;
     right: 7em;
     text-align: center;
 }
@@ -173,6 +173,7 @@ h3 {
     height: 200px;
     width: 200px;
     color: rgb(234, 20, 20);
+    margin-top: 50px;
 }
 
 /* for list of drugs for a symptom */
@@ -183,7 +184,8 @@ h3 {
     width: 400px;
     height: auto;
     text-align: left;
-    padding: 25px;
+    margin: 20px;
+    margin-top: 70px;
 }
 
 #tListText {
