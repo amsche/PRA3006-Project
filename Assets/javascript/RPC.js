@@ -18,7 +18,9 @@ async function RPC(results) {
         <div id="symptomDescription" ></div>
     </p>
     </div>
+    <div class="sButton">
     <button id="select">Select</button>
+    </div>
     `
 
     //establishes values needed for the creation of the RPC i.e the area available 
