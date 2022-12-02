@@ -83,6 +83,7 @@ async function main() {
 
     //generates the dropdown menu
     function setDropdown(results) {
+        console.log(results)
         if (results.length == 1){
             __init_RPC(results[0].ID.replace("http://www.wikidata.org/entity/", ""))
             setName(results[0].name)
