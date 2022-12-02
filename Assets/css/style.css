@@ -154,6 +154,12 @@ h3 {
     font-size: 15px;
 }
 
+.textsymp {
+    width: 100px;
+    font-size: 15px;
+    padding-left: 40px;
+}
+
 /* for venn diagram  */
 #container {
     width: 500px;
@@ -162,43 +168,30 @@ h3 {
     padding: 0;
 }
 
-/* for venn diagram legend */
-.square1 {
-    height: 20px;
-    width: 20px;
-    background-color: #7EE5B1;
-    margin-top: 20px;
-    margin-left: 200px;
-    margin-bottom: 10px;
-}
-
-.square2 {
-    height: 20px;
-    width: 20px;
-    background-color: #72B6FF;
-    margin-left: 200px;
-    margin-bottom: 10px;
-}
-
-.square3 {
-    height: 20px;
-    width: 20px;
-    background-color: #8C72FF;
-    margin-left: 200px;
-    margin-bottom: 10px;
-}
-
-.textsymp {
-    width: 100px;
-    font-size: 15px;
-    padding-left: 40px;
-}
-
 .venn {
     display: block;
     height: 200px;
     width: 200px;
     color: rgb(234, 20, 20);
+}
+
+/* for list of drugs for a symptom */
+.treatmentBox {
+    display: block;
+    background-color:lightpink;
+    border-radius: 20px;
+    width: 400px;
+    height: auto;
+    text-align: left;
+    padding: 25px;
+}
+
+#tListText {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 10px;
+    font-size: 14px;
 }
 
 .hdiw {
