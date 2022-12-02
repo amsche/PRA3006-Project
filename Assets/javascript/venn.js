@@ -27,7 +27,7 @@ async function __init_venn(symptoms) {
         for (let j in temp.results.bindings) {
             drugs.push(temp.results.bindings[j].drugLabel.value)
         }
-        result.push({ symptom: symptoms[i].Name, treatment: drugs, colour: symptoms[i].Colour })
+        result.push({ symptom: capitalizeFirstLetter(symptoms[i].Name), treatment: drugs, colour: symptoms[i].Colour })
     }
     console.log(result)
     //Next generate the data
@@ -147,3 +147,6 @@ async function __init_venn(symptoms) {
     });
 
 }
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
