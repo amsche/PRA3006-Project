@@ -3,6 +3,9 @@
 async function RPC(results) {
     // below is book keeping to ensure the data is clean before now constructions occur
     document.getElementById("svg").innerHTML = ""
+    document.getElementById("container").innerHTML = ""
+    document.getElementById("speechBubbleContainer").innerHTML = ""
+
     var currentIndex = null
     selectedSymptoms = []
 
@@ -19,7 +22,7 @@ async function RPC(results) {
     `
 
     //establishes values needed for the creation of the RPC i.e the area available 
-    var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height) / 3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height)/2, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     //creates an array with the data in the format that the RPC is used to
     var data = new Array(symptoms.length);
@@ -28,7 +31,7 @@ async function RPC(results) {
     }
 
 
-    //WARNING following section contains a lot of incomprehensible varable names. It was copied hope for change
+    //WARNING following section contains a lot of incomprehensible variable names. It was copied hope for change
     // creates the parts needed for the RPC
     var pie = d3.pie()
         .sort(null)
@@ -158,7 +161,7 @@ async function query2(diseaseEntered) {
 }
 
 //seperate function due to the async nature of the entire code
-async function main(diseaseEntered) {
+async function __init_RPC(diseaseEntered) {
     result = await query2(diseaseEntered)
     RPC(result)
 }
@@ -169,7 +172,7 @@ selected.addEventListener("input", (e) => {
     var value = e.target.value
     value = value.replace("http://www.wikidata.org/entity/", "")
 
-    main(value)
+    __init_RPC(value)
 })
 
 // takes a symptom name and the results object to produce the symptom descripion

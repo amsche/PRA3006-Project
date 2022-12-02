@@ -75,11 +75,19 @@ async function main() {
     //removes all the entries in the dropdown
     function clearList() {
         document.getElementById("dropdown").innerHTML = ""
+        document.getElementById("svg").innerHTML = ""
+        document.getElementById("container").innerHTML = ""
+        document.getElementById("speechBubbleContainer").innerHTML = ""
     }
 
 
     //generates the dropdown menu
     function setDropdown(results) {
+        console.log(results.length)
+        if (results.length == 1){
+            __init_RPC(results[0].ID.replace("http://www.wikidata.org/entity/", ""))
+            return
+        }
         clearList()
         var dropdown = "<select>"
 
