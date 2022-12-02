@@ -121,6 +121,8 @@ async function __init_venn(symptoms) {
             console.log(index)
         })
     });
+    document.getElementsByClassName("anychart-credits")[0].innerHTML = ""
+
     function setTList(index) {
         console.log(data[index].custom_field)
         var tList = `<div class=treatmentBox> 
