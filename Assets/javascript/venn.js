@@ -99,7 +99,7 @@ async function __init_venn(symptoms) {
         data.push({
             x: morecompresseddata[i].symptom,
             value: morecompresseddata[i].treatment.length,
-            name: "Drugs to cure \n" + morecompresseddata[i].symptom,
+            name: "Click here for treatments",
             custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"),
             normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}), 
         })
