@@ -179,13 +179,17 @@ h3 {
 /* for list of drugs for a symptom */
 .treatmentBox {
     display: block;
-    background-color:lightpink;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #257266;
     border-radius: 20px;
-    width: 400px;
+    min-width: 200px;
+    width: auto;
     height: auto;
     text-align: left;
     margin: 20px;
     margin-top: 70px;
+    margin-right: 7em;
 }
 
 #tListText {
