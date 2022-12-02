@@ -45,21 +45,29 @@
         <script src="Assets/javascript/search-functionality.js"></script>
     </section>
 
-    <div class="container">
+   <div class="container">
         <section class="flex-column-left">
             <p id="title"></p>
             <svg id="svg" width="400" height="400"></svg>
-            <div id="speechBubbleContainer"></div>
             <script src="https://d3js.org/d3.v4.min.js"></script>
             <script src="Assets/javascript/RPC.js"></script>
         </section>
 
         <section class="flex-column-right">
+            <div id="speechBubbleContainer"></div>
+        </section>
+    </div>
+
+    <div class="container">
+        <section class="flex-column-left">
             <div id="container" class="venn"></div>
             <script src="Assets/javascript/venn.js"></script>
         </section>
+
+        <section class="flex-column-right">
+            <div id="treatmentList"></div>
+        </section>
     </div>
-    <div id="treatmentList"></div>
 </body>
 
 </html>
