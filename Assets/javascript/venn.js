@@ -25,7 +25,7 @@ async function __init_venn(symptoms) {
         temp = (await queryDispatcher.query(temp))
         drugs = []
         for (let j in temp.results.bindings) {
-            drugs.push(temp.results.bindings[j].drugLabel.value)
+            drugs.push(capitalizeFirstLetter(temp.results.bindings[j].drugLabel.value))
         }
         result.push({ symptom: capitalizeFirstLetter(symptoms[i].Name), treatment: drugs, colour: symptoms[i].Colour })
     }
