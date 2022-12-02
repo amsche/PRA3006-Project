@@ -104,34 +104,12 @@ async function __init_venn(symptoms) {
             x: morecompresseddata[i].symptom,
             value: morecompresseddata[i].treatment.length,
             name: "Drugs to cure \n" + morecompresseddata[i].symptom,
-            custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "\n"),
+            custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"),
             normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}), 
         })
     }
     //make the chart
     anychart.onDocumentReady(function () {
-        // var data = [
-        //     {
-        //         x: "A",
-        //         value: 100,
-        //         name: "Drugs to cure \nSymptom 1",
-        //         custom_field: "Drug 1 \nDrug 2 \n Drug 3",
-        //         normal: { fill: "#7EE5B1 0.7" },
-        //     },
-        //     {
-        //         x: "B",
-        //         value: 100,
-        //         name: "Drugs to cure \nSymptom 2",
-        //         custom_field: "Drug 4 \nDrug 5 \n Drug 6",
-        //         normal: { fill: "#72B6FF 0.7" }
-        //     },
-        //     {
-        //         x: ["A", "B"],
-        //         value: 25,
-        //         name: "Drugs to cure \nSymptoms 1&2",
-        //         custom_field: "Drug 12 \nDrug 13"
-        //     }
-        // ];
         var chart = anychart.venn(data);
         chart.container("container");
         chart.draw();
@@ -142,11 +120,23 @@ async function __init_venn(symptoms) {
         chart.tooltip(true);
         chart.listen("pointClick", function(e) {
             const index = e.iterator.getIndex()
-            console.log(data[index].custom_field)
+            setTList();
         })
     });
 
 }
+
+function setTList() {
+        var tList = `<div class=treatmentBox> 
+        <div id="tListText"> 
+        <p>Available Treatments:</p>
+        <p> 
+        `
+        tList += data[index].custom_field
+        tList += "</p> </div> </div>"
+        document.getElementById("treatmentList").innerHTML = tList
+    }
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
