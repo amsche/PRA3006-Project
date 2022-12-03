@@ -28,17 +28,24 @@ SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" 
 
 
 // Removing duplicates (called after the query)
+// complicated because we dont want to show diseases that have no symptoms but
+// the query ensureing symptoms results in duplicates of diseases based on number of symptoms
 function Load(result) {
-    var set = new Set()
+    var diseaseIDs = new Set() //to ensure disease IDs are unique
     for (let i = 0; i < result.results.bindings.length; i++) {
-        set.add(result.results.bindings[i].disease.value)
+        diseaseIDs.add(result.results.bindings[i].disease.value)
     }
-    diseaseIDs = Array.from(set)
+    diseaseIDs = Array.from(diseaseIDs) //transorm into array because easier to work with
     diseases = new Array(diseaseIDs)
+
     for (let j = 0; j< diseaseIDs.length;j++){
         for (let i = 0; i < result.results.bindings.length; i++) {
-            if(result.results.bindings[i].disease.value === diseaseIDs[j]){
-                diseases[j] = { ID: result.results.bindings[i].disease.value, name: result.results.bindings[i].diseaseLabel.value }
+            if(result.results.bindings[i].disease.value === diseaseIDs[j]){ //compare unique disease IDs to the ids in the results
+                //for duplicates it just overwrites the previous value meaning that the duplicates are ignored
+                diseases[j]={ 
+                                ID: result.results.bindings[i].disease.value,
+                                name: result.results.bindings[i].diseaseLabel.value 
+                            }
             }
         }
     }
@@ -49,16 +56,17 @@ function Load(result) {
 
 //Generating the dropdown menu
 function setDropdown(results) {
-    console.log(results)
-    if (results.length == 1){
+    //console.log(results)
+    clearList()
+
+    if (results.length == 1){ //if there is only one thing in the dropdown it instead moves on
         __init_RPC(results[0].ID.replace("http://www.wikidata.org/entity/", ""))
         setName(results[0].name)
         return
     }
-    clearList()
     var dropdown = "<select>"
 
-    //Fixing an issue of the first element being unselectable
+    //Fixing an issue of the first element being unselectable by adding a demmy element
     if(results&&results.length>0){
         dropdown += "<option value=\""+null +"\">Select your Disease</option>"
     }
@@ -75,7 +83,7 @@ function setDropdown(results) {
 
 
 
-//Removing all the entries in the dropdown
+//Removing all the entries in the dropdown and resets the page
 function clearList() {
     document.getElementById("dropdown").innerHTML = ""
     document.getElementById("svg").innerHTML = ""
