@@ -7,7 +7,8 @@
 
 // Setup of some variables which will be needed
 selectedSymptoms = [] //bookkeeping device
-var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]); // color is now a function that returns a consistent colour based on imput
+// Creating a colour space according to our specifications (mint green to purple)
+var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]); // color is now a function that returns a consistent colour based on input
 
 
 
@@ -360,7 +361,6 @@ async function getInfo(symptom, results) {
 
 // Changing the colour of each element with the path-section (needs to change) class
 function changeColour() {
-    // Creating a colour space according to our specifications (mint green to purple)
     // Looping through each element with path-section class
     for (let i = 0; i < document.getElementsByClassName("path-section").length; i++) { 
         if (selectedSymptoms.includes(i)) { // if included fills it a colour
@@ -401,6 +401,6 @@ async function constructVenn(results) {
             }
         }
     }
-    
+
     await __init_venn(symptoms)
 }
