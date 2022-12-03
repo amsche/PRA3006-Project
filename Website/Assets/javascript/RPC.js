@@ -377,16 +377,25 @@ function changeColour() {
 // Constructing the Venn Diagram with the selected symptoms
 async function constructVenn(results) {
     var selectedSymptomNames = [] //will temp store names of selected symptoms
+    const arcText = document.getElementsByClassName("arcText")//stores each element with the arcText class
 
-    //@todo maybe able to be refactored
-    for (let i = 0; i < document.getElementsByClassName("arcText").length; i++) { //loops through each element with arcText class
+    for (let i = 0; i < arcText.length; i++) { //loops through each element with arcText class
         if (selectedSymptoms.includes(i)) { //then if the element is selected it adds its name and color to the array with names
             selectedSymptomNames.push({
-                name: document.getElementsByClassName("arcText")[i].innerHTML,
+                name: arcText[i].innerHTML,
                 colour: color(i) //color is added to assure accurate visual communication between RPC and venn
             })
         }
     }
+    //cant be easily refactored because the index i needs to match the render order using the below example would result in the ordering
+    //of colours to be mixed up, which may be confusing to the user eventhough this would be more efficient
+    // for (let i = 0; i < selectedSymptoms.length; i++) {
+    //     selectedSymptomNames.push({
+    //         name: arcText[i].innerHTML,
+    //         colour: color(i)
+    //     })
+    // }
+
     
     var symptoms = []
     //loops through all the results and selected symptom names, needed to get the symptom IDs
@@ -404,3 +413,5 @@ async function constructVenn(results) {
 
     await __init_venn(symptoms)
 }
+//@todo refactoring the datastructure to not use the parser function may allow the constructVenn()
+// function to be simplified
