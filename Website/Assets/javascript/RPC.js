@@ -199,141 +199,6 @@ async function query2(diseaseEntered) {
     return queryDispatcher.query(sparqlQuery);
 }
 
-
-
-// Generating the Symptom Wheel
-async function RPC(results) {
-
-    // Ensuring that the data is clean before now constructions occur
-    document.getElementById("svg").innerHTML = ""
-    document.getElementById("container").innerHTML = ""
-    document.getElementById("speechBubbleContainer").innerHTML = ""
-
-    var currentIndex = null
-    selectedSymptoms = []
-
-    // Creating the speech bubble for the description and the select button in the html
-    document.getElementById("speechBubbleContainer").innerHTML = `
-    <div id="speech-bubble" class="speech-bubble" >
-    <p>Symptom description:</p>
-    <p>
-        <div id="symptomDescription" ></div>
-    </p>
-    </div>
-    <div class="sButton">
-    <button id="select">Select</button>
-    </div>
-    `
-
-    // Using the results to get purely the symptom IDs as this is easier to work with
-    const symptoms = await parser(results)
-
-    // Establishing values needed for the creation of the wheel, i.e. the area available 
-    var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height)/2, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    // Creating an array with the data in the format that the wheel is used to
-    var data = new Array(symptoms.length);
-    for (let i = 0; i < symptoms.length; i++) {
-        data[i] = { symName: symptoms[i], frequency: 1 }
-    }
-
-    // WARNING following section contains a lot of incomprehensible variable names. It was copied hope for change
-    // Creating the parts needed for the wheel
-    var pie = d3.pie()
-        .sort(null)
-        .value(function (d) { return d.frequency; });
-
-    var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
-
-    var label = d3.arc()
-        .outerRadius(radius - 50) //these values/offsets determine the locations of the lables
-        .innerRadius(radius - 50);
-
-    var arc = g.selectAll(".arc")
-        .data(pie(data))
-        .enter().append("g")
-        .attr("class", "arc");
-
-
-    // Setting wheel characteristics (colours, rotate function, labels etc.)
-    // (most edited part of the code from the d3 collection)
-    arc.append("path")
-
-        // Colours and sections
-        .attr("d", path)
-        .attr("class", "path-section") //gives the arc area a class so its colour can be changed later
-        .attr("fill", "#C0C0C0") //gives the arc areas a standard colour
-        .attr("text-anchor", function (d) {
-            // are we past the center?
-            return (d.endAngle + d.startAngle) / 2 > Math.PI ?
-                "end" : "start";
-        })
-
-        // Rotation of wheel when clicking on a section
-        .on("click", function (d) {
-
-            // The amount we need to rotate
-            var rotate = 90 - (d.startAngle + d.endAngle) / 2 / Math.PI * 180;
-
-            // Transition the pie chart
-            g.transition()
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ") rotate(" + rotate + ")")
-                .duration(1000);//takes one second to rotate (value in ms)
-
-            // Τransition the labels
-            text.transition()
-                .attr("transform", function (dd) {
-                    return "translate(" + label.centroid(dd) + ") rotate(" + (-rotate) + ")";
-                })
-                .duration(1250);//takes 1.25 seconds to rotate (value in ms) different to give sense of inertia
-
-            // Book keeping
-            getInfo(d.data.symName, results);
-            currentIndex = d.index// used to transfer data to the select button
-        });
-
-    // Formatting the label text 
-    // (Just copied from the d3 library)
-    var text = arc.append("text")
-        .attr("class", "arcText")
-        .attr("transform", function (d) { return "translate(" + label.centroid(d) + ")"; })
-        .attr("dy", "0.38em")
-        .text(function (d) { return d.data.symName; });
-
-    // Establishing the select button 
-    // (to select a specific symptom, which will be displayed in the Venn Diagram)
-    const selectbutton = document.getElementById("select")
-    selectbutton.addEventListener("click", () => {
-        // Checking if the current index (section on right) is selected
-        if (selectedSymptoms.includes(currentIndex)) { 
-            let index = selectedSymptoms.indexOf(currentIndex)
-            // Removing symptom from the array of selected symptoms if true
-            if (index > -1) {
-                selectedSymptoms.splice(index, 1)
-            }
-        }
-        else {// if it isnt in  the array it adds it
-            selectedSymptoms.push(currentIndex) 
-        }
-
-        changeColour()// Updating the colours 
-
-        // Constructing the Venn Diagram if at least one symptom is selected
-        if (selectedSymptoms.length > 0) {
-            constructVenn(results)
-        }
-        else{//otherwise empties the venn diagram
-            document.getElementById("container").innerHTML = ""
-        }
-    })
-
-    
-}
-
-
-
 // Taking the results of the query and converting them to just the names of the symptoms
 // (so it can be used easily in the wheel)
 async function parser(results) {
@@ -385,6 +250,15 @@ async function constructVenn(results) {
                 name: arcText[i].innerHTML,
                 colour: color(i) //color is added to assure accurate visual communication between RPC and venn
             })
+            if (arcText[i].innerHTML === "Increase"){
+                var svg = document.getElementById("svg")
+                console.log(svg)
+                width = parseInt(svg.attributes.width.value) +10
+                height = parseInt(svg.attributes.height.value) +10
+                svg.attributes.width.value = width
+                svg.attributes.height.value = height
+                
+            }
         }
     }
     //cant be easily refactored because the index i needs to match the render order using the below example would result in the ordering
@@ -415,3 +289,14 @@ async function constructVenn(results) {
 }
 //@todo refactoring the datastructure to not use the parser function may allow the constructVenn()
 // function to be simplified
+
+
+        //easter egg
+        var egg = d3.select(document.getElementsByClassName("arcText")[currentIndex])
+        console.log(egg)
+        console.log(egg.innerHTML)
+        if(egg.innerHTML === "Increase"){
+            console.log("hi")
+            var svg = document.getElementById("svg")
+            svg.setAttribute("width", svg.width + 1)
+        }

@@ -5,7 +5,7 @@
 
 
 // Construction of the Venn Diagramm
-// Called by RPC.js when a symptom is selected
+// Called by RPC.js when a symptom is selected using dunder notation for this reason
 async function __init_venn(symptoms) {
 
 
