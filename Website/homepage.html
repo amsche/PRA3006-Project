@@ -1,0 +1,90 @@
+<!-- HOMEPAGE -->
+
+
+<!DOCTYPE html>
+<html>
+
+<!-- Page Setup -->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-venn.min.js"></script>
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>X-Check</title>
+</head>
+
+<body>
+
+    <!-- Top Banner -->
+    <header>
+        <a href="homepage.html">
+            <img src="Assets/Visuals/Logo.png" alt="X-check logo" class="LogoXCheck" />
+        </a>
+        <hr>
+    </header>
+
+    <!-- Page Navigation Bar -->
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="about-us.html">About Us</a>
+        <a href="how-does-it-work.html">How does it work?</a>
+    </nav>
+
+    <!-- Welcome Message -->
+    <section>
+        <h1>WELCOME TO X-CHECK</h1>
+        <h2>Finding symptoms of infectious diseases and their treatments</h2>
+    </section>
+
+    <!-- Searchbar -->
+    <section>
+        <form class="form">
+            <input id="searchbar" type="text" class="input" placeholder="Enter an infectious disease"/>
+            <div id="dropdown" class="selector"></div>
+            <button id="random" class="randomselection" type="button">Show Example</button>
+        </form>
+
+        <div class="results-container">
+            <ul class="results-list" id="list"></ul>
+        </div>
+
+        <script src="Assets/javascript/search-functionality.js"></script>
+    </section>
+
+    <!-- Symptoms of selected disease -->
+   <div class="container">
+        <!-- Wheel of symptoms -->
+        <section class="flex-column-left">
+            <h2 id="title"></h2>
+            <svg id="svg" width="400" height="400"></svg>
+            <script src="https://d3js.org/d3.v4.min.js"></script>
+            <script src="Assets/javascript/RPC.js"></script>
+        </section>
+
+        <!-- Description of symptoms -->
+        <section class="flex-column-right">
+            <div id="speechBubbleContainer"></div>
+        </section>
+    </div>
+
+    <!-- Treatments of the selected symptoms -->
+    <div class="container">
+        <!-- Venn diagram -->
+        <section class="flex-column-left">
+            <h2 id="venntitle" class="vennHeader"></h2>
+            <div id="container" class="venn"></div>
+            <script src="Assets/javascript/venn.js"></script>
+            <p id="vennDisclaimer" class="vennDisc"></p>
+        </section>
+
+        <!-- List of treatments for the symptom selected in venn diagram -->
+        <section class="flex-column-right">
+            <div id="treatmentList"></div>
+        </section>
+    </div>
+
+</body>
+
+</html>
