@@ -250,13 +250,10 @@ async function constructVenn(results) {
                 name: arcText[i].innerHTML,
                 colour: color(i) //color is added to assure accurate visual communication between RPC and venn
             })
-            if (arcText[i].innerHTML === "Increase"){
+            if (arcText[i].innerHTML === "Increase"){//easter egg
                 var svg = document.getElementById("svg")
-                console.log(svg)
-                width = parseInt(svg.attributes.width.value) +10
-                height = parseInt(svg.attributes.height.value) +10
-                svg.attributes.width.value = width
-                svg.attributes.height.value = height
+                svg.attributes.width.value = parseInt(svg.attributes.width.value) +10
+                svg.attributes.height.value = parseInt(svg.attributes.height.value) +10
                 
             }
         }
