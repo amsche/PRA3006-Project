@@ -39,9 +39,9 @@ async function __init_venn(symptoms) {
     result = []
     for (let i in symptoms) {
         var temp = sparqlQuery.replace('SYMPTOM', symptoms[i].ID);
-        console.log(temp)
+        //console.log(temp)
         const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
-        temp = (await queryDispatcher.query(temp))
+        temp = await queryDispatcher.query(temp)
         drugs = []
         for (let j in temp.results.bindings) {
             drugs.push(capitalizeFirstLetter(temp.results.bindings[j].drugLabel.value))
@@ -70,37 +70,39 @@ async function __init_venn(symptoms) {
     var compresseddata = []
     for (let i in alldata) {
         check = true
-        for (let j in compresseddata) {
+        for (let j in compresseddata) {//for loop used because includes doesnt work with objects
             if (alldata[i].treatment === compresseddata[j].treatment) {
                 compresseddata[j].symptom.push(alldata[i].symptom)
                 check = false
             }
         }
-
-        if (check) {
+        
+        if (check) { //wont run if any treatment in compresseddata === treatment i in alldata. similar to for else loop in python(although you shouldnt use for else as it reduces readability)
             compresseddata.push({
                 treatment: alldata[i].treatment,
-                symptom: [alldata[i].symptom],
+                symptom: [alldata[i].symptom], //array so that additional symptoms for this treatment can be appended
                 colour: alldata[i].colour
             })
         }
     }
 
+    //compares 2 arrays to see if they are equal. does not work if array stores objects
     function arraysEqual(a, b) {
-        if (a === b) return true;
-        if (a == null || b == null) return false;
-        if (a.length !== b.length) return false;
-
+        if (a === b) return true; //if both are assigned to same memory they are litteraly the same
+        if (a == null || b == null) return false; //if one is null it cant be equal (both cant be null because above clause would filter that out)
+        if (a.length !== b.length) return false; //if the lengths are different they cant be equal
+        //we dont care about the order in which the treatable symptoms were added to the array so we can sort
         a.sort() // be carefull with these if you care about the ordering of your arrays
         b.sort()
 
         for (var i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) return false;
+            if (a[i] !== b[i]) return false;//if after sorting any element is not equal the arrays are not equal
         }
         return true;
     }
 
     // Putting all the treatments that treat the same set of symptoms into an array
+    //Same functionality as previous for loop just now comparing array of symptoms (reason for above function) and forming an array of treatments
     var morecompresseddata = []
     for (let i in compresseddata) {
         check = true
@@ -121,14 +123,14 @@ async function __init_venn(symptoms) {
 
 
     // Converting the data into a format that the AnyChart Venn Diagram can use
-    var data = []
+    var data = [] //named data as this is the part acually used all previous arrays were just for the conversion process
     for(let i in morecompresseddata){
         data.push({
-            x: morecompresseddata[i].symptom,
-            value: morecompresseddata[i].treatment.length,
-            name: "Click here for treatments",
-            custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"),
-            normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}), 
+            x: morecompresseddata[i].symptom, //label of venn section
+            value: morecompresseddata[i].treatment.length, //size of venn section
+            name: "Click here for treatments", //seen on hover
+            custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"), //list of treatments used in click funtionality
+            normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}),  //determines the colour with 50% opacity (if its an overlap section no color is assigned)
         })
     }
     var index = 0
@@ -136,27 +138,26 @@ async function __init_venn(symptoms) {
     // Creating the chart with AnyChart
     anychart.onDocumentReady(function () {
         var chart = anychart.venn(data);
-        chart.container("container");
+        chart.container("container"); //assigns container to be used for the diagram
         chart.draw();
-        chart.labels().format("{%x}");
-        chart.labels().fontColor("#000")
-        chart.stroke('1 #fff');
+        chart.labels().format("{%x}"); //label text asignment
+        chart.labels().fontColor("#000") //font colour
+        chart.stroke('1 #fff'); //outline of the diagram
         chart.legend(false);
-        chart.tooltip(true);
+        chart.tooltip(true); //on hover functionality
         document.getElementById("venntitle").innerHTML = "Number of Available Treatments"
-        var vennDis = "Note: If no circle shows up for a selected symptom, no treatments are currently available"
+        var vennDis = "Note: If no circle shows up for a selected symptom, no treatments are currently available in our database"
         document.getElementById("vennDisclaimer").innerHTML = vennDis
         chart.listen("pointClick", function(e) {
             index = e.iterator.getIndex()
             setTList(index);
-            console.log(index)
+            //console.log(index)
         })
     });
-    document.getElementsByClassName("anychart-credits")[0].innerHTML = ""
 
     // Creating the list of treatments for the symptom clicked in the Venn Diagramm
     function setTList(index) {
-        console.log(data[index].custom_field)
+        //console.log(data[index].custom_field)
         var tList = `<div class=treatmentBox> 
         <div id="tListText"> 
         <h3>List of Available Treatments:</h3>
@@ -168,7 +169,7 @@ async function __init_venn(symptoms) {
     }
 }
 
-// Capitalizong the first letters of symptoms and treatments
+// Capitalizing the first letters of symptoms and treatments
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
