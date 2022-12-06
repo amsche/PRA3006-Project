@@ -6,7 +6,7 @@
 
 
 // Setup of some variables which will be needed
-selectedSymptoms = [] //bookkeeping device
+selectedSymptoms = [] //bookkeeping device, set it to nothing to make sure it is always empty when we start 
 // Creating a colour space according to our specifications (mint green to purple)
 var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AFF", "#8C72FF"]); // color is now a function that returns a consistent colour based on input
 
@@ -14,9 +14,11 @@ var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AF
 
 // Creating an eventlistener for the dropdown menu for diseases 
 // (uses the input as the entered disease for the query)
+//selector drop down menu 
 const selected = document.querySelector('.selector')
 selected.addEventListener("input", (e) => {
-    var value = e.target.value.split(",")[0]//the first part is the Wikidata ID 
+    var value = e.target.value.split(",")[0]//the first part is the Wikidata ID, takes the results and name (from search functionality) 
+    //and splits it with a comma 
     __init_RPC(value.replace("http://www.wikidata.org/entity/", ""))//Initiates wheel of misfortune 
     setName ( e.target.value.split(",")[1])//the second part is the label (name)
     //done with the string split function as this seemed like the best way to transfer this data
@@ -29,6 +31,8 @@ function setName(name){
     document.getElementById("title").innerHTML = "Symptoms of " + capitalizeFirstLetter(name)
   }  
 // To capitalize the first letters of String
+//takes the char at place 0 and makes it upper case 
+//string.slice removes the first letter of the string (lowercase) and then adds it to the uppercase first letter
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -41,11 +45,11 @@ function capitalizeFirstLetter(string) {
 async function __init_RPC(diseaseEntered) {
     results = await query2(diseaseEntered)
     
-    // Ensuring that the data is clean before other constructions occur
+    // Ensuring that the data is clean before other constructions occur (reseting it) 
     document.getElementById("svg").innerHTML = ""
     document.getElementById("container").innerHTML = ""
 
-    var currentIndex = null
+    var currentIndex = null //no current index yet
     selectedSymptoms = []
 
     // Creating the speech bubble for the description and the select button in the html
