@@ -96,23 +96,26 @@ function clearList() {
 //MAIN function, manages the search bar
 async function main() {
 
-    //Constructing object of query class
+    //Constructing object of query class. diseases will only contain id and names
     const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
     diseases = await queryDispatcher.query(sparqlQuery).then(Load);
 
     //Adding listener to searchbar
+    //. is class 
+    //eventlistener named input and which will call the function when you use e 
     const searchInput = document.querySelector('.input')
     searchInput.addEventListener("input", (e) => {
         let value = e.target.value
 
         if (value) { //checks if there is an entered value
+            //remove space bars and make everything lowercase 
             value = value.trim().toLowerCase() 
             //returning only the results to setDropdown if the value of the search is included in the disease's name
             setDropdown(diseases.filter(d => {
                 return d.name.includes(value)
             }))
         }
-        else {
+        else { //no value
             clearList()
         }
     })
@@ -121,6 +124,9 @@ async function main() {
     const randomButton = document.getElementById('random')
     randomButton.addEventListener("click", () => {
         //selects a random disease
+        //math.random gives a random number between 0 and 1 
+        //diseases.length length of the number of diseases 
+        //math.floor gives an integer 
         let selected = diseases[Math.floor(Math.random() * diseases.length)].name 
         //filters out all other diseases
         setDropdown(diseases.filter(d => {
