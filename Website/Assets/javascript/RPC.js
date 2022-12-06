@@ -74,7 +74,7 @@ async function __init_RPC(diseaseEntered) {
     //the transform stuff is related to the rotational function
 
 
-    // Creating an array with the data in the format that the wheel is used to
+    // Creating an array with the data in the format that the wheel is used to, put the data into objects 
     var data = new Array(symptoms.length);
     for (let i = 0; i < symptoms.length; i++) {
         data[i] = { symName: symptoms[i] }
@@ -110,6 +110,7 @@ async function __init_RPC(diseaseEntered) {
         .attr("fill", "#C0C0C0") //gives the arc areas a standard colour
         .attr("text-anchor", function (d) {
             // are we past the center?
+            //makes sure the text isn't on the outside of the pie
             return (d.endAngle + d.startAngle) / 2 > Math.PI ?
                 "end" : "start";
         })
@@ -118,11 +119,13 @@ async function __init_RPC(diseaseEntered) {
         .on("click", function (d) {
 
             // The amount we need to rotate
+            // 90 makes it go to the right when you click 
             var rotate = 90 - (d.startAngle + d.endAngle) / 2 / Math.PI * 180;
 
             // Transition the pie chart
             g.transition()
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ") rotate(" + rotate + ")")
+                //1000 ms 
                 .duration(1000);
 
             // Τransition the labels
@@ -132,8 +135,9 @@ async function __init_RPC(diseaseEntered) {
                 })
                 .duration(1250);
 
-            // Book keeping
+            // Book keeping, puts stuff in the description box 
             getInfo(d.data.symName, results);
+            //current index knows what is currently selected
             currentIndex = d.index
         });
 
@@ -148,11 +152,13 @@ async function __init_RPC(diseaseEntered) {
     // Establishing the select button 
     // (to select a specific symptom, which will be displayed in the Venn Diagram)
     const selectorbutton = document.getElementById("select")
+    //not adding event because we don't care 
     selectorbutton.addEventListener("click", () => {
         // Checking if the current index (section on right) is selected
         if (selectedSymptoms.includes(currentIndex)) { 
             let index = selectedSymptoms.indexOf(currentIndex)
             // Removing symptom from the array of selected symptoms if true
+            //unselect it if already selected
             if (index > -1) {
                 selectedSymptoms.splice(index, 1)
             }
@@ -203,7 +209,7 @@ async function query2(diseaseEntered) {
     return queryDispatcher.query(sparqlQuery);
 }
 
-// Taking the results of the query and converting them to just the names of the symptoms
+// Taking the results of the query (parser) and converting them to just the names of the symptoms
 // (so it can be used easily in the wheel)
 async function parser(results) {
     var symptoms = new Set //new set to make sure everything is unique
@@ -219,7 +225,7 @@ async function parser(results) {
 async function getInfo(symptom, results) {
     for (let i = 0; i < await results.results.bindings.length; i++) {
         if (symptom.toUpperCase() === results.results.bindings[i].symptomLabel.value.toUpperCase()) {
-            symptom = results.results.bindings[i]
+            symptom = results.results.bindings[i] //id name and description 
             break // to prevent unneccesary run time
         }
     }
