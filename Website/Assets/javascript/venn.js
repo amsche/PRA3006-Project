@@ -35,7 +35,9 @@ async function __init_venn(symptoms) {
     
 
 
-    // Retrieving and storing them in an array
+    // Retrieving and storing them in an array, go through each symptom and for each symptom we create an array named drugs, insert it into an object, and
+    //then insert it into a result array 
+    //call a bunch of querries for all the symptoms selected 
     result = []
     for (let i in symptoms) {
         var temp = sparqlQuery.replace('SYMPTOM', symptoms[i].ID);
@@ -52,7 +54,7 @@ async function __init_venn(symptoms) {
 
 
     // Generating the data
-    // (Putting all the data into a single array, where each treatment is its own element (stored with symptom and colour))
+    // (Putting all the data into a single array, where each treatment is its own element (stored with symptom and colour) 
     var alldata = []
     for (let i in result) {
         for (let j in result[i].treatment) {
@@ -67,12 +69,13 @@ async function __init_venn(symptoms) {
 
 
     // Making all the treatments unique in the array and introducing multiple symptoms it may treat
+    //for every element we check if it is in the compressed data array, if it is, it will add an additional symtpom to the already existing symptom
     var compresseddata = []
     for (let i in alldata) {
         check = true
         for (let j in compresseddata) {//for loop used because includes doesnt work with objects
-            if (alldata[i].treatment === compresseddata[j].treatment) {
-                compresseddata[j].symptom.push(alldata[i].symptom)
+            if (alldata[i].treatment === compresseddata[j].treatment) { // are the treatments the same? 
+                compresseddata[j].symptom.push(alldata[i].symptom) //add the treatment to the symptom 
                 check = false
             }
         }
@@ -148,7 +151,7 @@ async function __init_venn(symptoms) {
         document.getElementById("venntitle").innerHTML = "Number of Available Treatments"
         var vennDis = "Note: If no circle shows up for a selected symptom, no treatments are currently available in our database"
         document.getElementById("vennDisclaimer").innerHTML = vennDis
-        chart.listen("pointClick", function(e) {
+        chart.listen("pointClick", function(e) { //when you click it creates the box with treatments (below) 
             index = e.iterator.getIndex()
             setTList(index);
             //console.log(index)
