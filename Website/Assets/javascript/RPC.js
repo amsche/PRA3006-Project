@@ -17,8 +17,7 @@ var color = d3.scaleOrdinal(["#72FFC3", "#72FFE5", "#72E1FF", "#72B6FF", "#728AF
 //selector drop down menu 
 const selected = document.querySelector('.selector')
 selected.addEventListener("input", (e) => {
-    var value = e.target.value.split(",")[0]//the first part is the Wikidata ID, takes the results and name (from search functionality) 
-    //and splits it with a comma 
+    var value = e.target.value.split(",")[0]//the first part is the Wikidata ID, takes the results and name (from search functionality) and splits it with a comma 
     __init_RPC(value.replace("http://www.wikidata.org/entity/", ""))//Initiates wheel of misfortune 
     setName ( e.target.value.split(",")[1])//the second part is the label (name)
     //done with the string split function as this seemed like the best way to transfer this data
