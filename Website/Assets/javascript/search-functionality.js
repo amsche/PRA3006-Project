@@ -11,8 +11,8 @@ class SPARQLQueryDispatcher {
     }
 
     query(sparqlQuery) {
-        const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
-        const headers = { 'Accept': 'application/sparql-results+json' };
+        const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery); //method that calls this endpoint and the query term and makes it a uri
+        const headers = { 'Accept': 'application/sparql-results+json' }; //headers: conditions that you give to show what it's (not) allowed to do 
         return fetch(fullUrl, { headers }).then(body => body.json());
     }
 }
