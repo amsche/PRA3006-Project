@@ -134,6 +134,7 @@ async function __init_venn(symptoms) {
             name: "Click here for treatments", //seen on hover
             custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"), //list of treatments used in click funtionality
             normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}),  //determines the colour with 50% opacity (if its an overlap section no color is assigned)
+            selected: {fill: "#C0C0C0 0.8"}
         })
     }
     var index = 0
