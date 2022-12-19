@@ -66,7 +66,7 @@ function setDropdown(results) {
     }
     var dropdown = "<select>"
 
-    //Fixing an issue of the first element being unselectable by adding a demmy element
+    //Fixing an issue of the first element being unselectable by adding a dummy element
     if(results&&results.length>0){
         dropdown += "<option value=\""+null +"\">Select your Disease</option>"
     }

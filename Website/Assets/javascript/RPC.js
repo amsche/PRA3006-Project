@@ -106,8 +106,7 @@ async function __init_RPC(diseaseEntered) {
         .attr("fill", "#C0C0C0") //gives the arc areas a standard colour
         .attr("text-anchor", function (d) {
             // are we past the center?
-            return (d.endAngle + d.startAngle) / 2 > Math.PI ?
-                "end" : "start";
+            return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
         })
 
         // Rotation of wheel when clicking on a section
@@ -252,8 +251,8 @@ async function constructVenn(results) {
             })
             if (arcText[i].innerHTML === "Increase"){//easter egg
                 var svg = document.getElementById("svg")
-                svg.attributes.width.value = parseInt(svg.attributes.width.value) +10
-                svg.attributes.height.value = parseInt(svg.attributes.height.value) +10
+                svg.attributes.width.value = parseInt(svg.attributes.width.value) +40
+                svg.attributes.height.value = parseInt(svg.attributes.height.value) +40
                 
             }
         }
@@ -286,14 +285,3 @@ async function constructVenn(results) {
 }
 //@todo refactoring the datastructure to not use the parser function may allow the constructVenn()
 // function to be simplified
-
-
-        //easter egg
-        var egg = d3.select(document.getElementsByClassName("arcText")[currentIndex])
-        console.log(egg)
-        console.log(egg.innerHTML)
-        if(egg.innerHTML === "Increase"){
-            console.log("hi")
-            var svg = document.getElementById("svg")
-            svg.setAttribute("width", svg.width + 1)
-        }

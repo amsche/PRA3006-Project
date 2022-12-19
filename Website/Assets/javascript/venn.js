@@ -146,8 +146,7 @@ async function __init_venn(symptoms) {
         chart.legend(false);
         chart.tooltip(true); //on hover functionality
         document.getElementById("venntitle").innerHTML = "Number of Available Treatments"
-        var vennDis = "Note: If no circle shows up for a selected symptom, no treatments are currently available in our database"
-        document.getElementById("vennDisclaimer").innerHTML = vennDis
+        document.getElementById("vennDisclaimer").innerHTML = "Note: If no circle shows up for a selected symptom, no treatments are currently available in our database"
         chart.listen("pointClick", function(e) {
             index = e.iterator.getIndex()
             setTList(index);
