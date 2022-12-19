@@ -59,7 +59,7 @@ async function __init_RPC(diseaseEntered) {
     // Creating the speech bubble for the description and the select button in the html
     document.getElementById("speechBubbleContainer").innerHTML = `
     <div id="speech-bubble" class="speech-bubble" >
-    <p>Symptom description:</p>
+    <p><div id="symLabel"></div> description:</p>
     <p>
         <div id="symptomDescription" ></div>
     </p>
@@ -203,6 +203,7 @@ async function getInfo(symptom, results) {
         }
     }
     document.getElementById("symptomDescription").innerHTML = symptom.symptomDescription.value //updates the value in html
+    document.getElementById("symLabel").innerHTML = symptom.symptomLabel.value //updates value of the symptom label in the description box in HTML
 }
 
 
