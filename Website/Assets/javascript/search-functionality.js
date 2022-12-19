@@ -89,6 +89,10 @@ function clearList() {
     document.getElementById("svg").innerHTML = ""
     document.getElementById("container").innerHTML = ""
     document.getElementById("speechBubbleContainer").innerHTML = ""
+    document.getElementById("treatmentList").innerHTML = ""
+    document.getElementById("venntitle").innerHTML = ""
+    document.getElementById("vennDisclaimer").innerHTML = ""
+    document.getElementById("title").innerHTML = ""
 }
 
 

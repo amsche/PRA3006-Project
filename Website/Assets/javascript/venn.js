@@ -133,6 +133,7 @@ async function __init_venn(symptoms) {
             value: morecompresseddata[i].treatment.length, //size of venn section
             name: "Click here for treatments", //seen on hover
             custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"), //list of treatments used in click funtionality
+            custom_field2: 1 < morecompresseddata[i].symptom.length ? "" : morecompresseddata[i].symptom, 
             normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}),  //determines the colour with 50% opacity (if its an overlap section no color is assigned)
             selected: {fill: "#C0C0C0 0.8"}
         })
@@ -144,7 +145,7 @@ async function __init_venn(symptoms) {
         var chart = anychart.venn(data);
         chart.container("container"); //assigns container to be used for the diagram
         chart.draw();
-        chart.labels().format("{%x}"); //label text asignment
+        chart.labels().format("{%custom_field2}"); //label text asignment
         chart.labels().fontColor("#000") //font colour
         chart.stroke('1 #fff'); //outline of the diagram
         chart.legend(false);

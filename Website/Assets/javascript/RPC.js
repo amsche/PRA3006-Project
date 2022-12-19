@@ -46,6 +46,10 @@ async function __init_RPC(diseaseEntered) {
     // Ensuring that the data is clean before other constructions occur (reseting it) 
     document.getElementById("svg").innerHTML = ""
     document.getElementById("container").innerHTML = ""
+    document.getElementById("treatmentList").innerHTML = ""
+    document.getElementById("venntitle").innerHTML = ""
+    document.getElementById("vennDisclaimer").innerHTML = ""
+    document.getElementById("title").innerHTML = ""
 
     var currentIndex = null //no current index yet
     selectedSymptoms = []
