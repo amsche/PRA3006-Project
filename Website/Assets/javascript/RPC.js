@@ -43,7 +43,6 @@ function capitalizeFirstLetter(string) {
 // Because called from another file dunder notation used
 async function __init_RPC(diseaseEntered) {
     results = await query2(diseaseEntered)
-    
     // Ensuring that the data is clean before other constructions occur (reseting it) 
     document.getElementById("svg").innerHTML = ""
     document.getElementById("container").innerHTML = ""
@@ -66,7 +65,6 @@ async function __init_RPC(diseaseEntered) {
 
     // Using the results to get purely the symptom IDs as this is easier to work with
     const symptoms = await parser(results)
-
     // Establishing values needed for the creation of the wheel, i.e. the area available 
     var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height)/2, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
     //this line also uses the g variable, which resulted in a lot of confusion, practically it is only a html tag
@@ -109,13 +107,8 @@ async function __init_RPC(diseaseEntered) {
         .attr("fill", "#C0C0C0") //gives the arc areas a standard colour
         .attr("text-anchor", function (d) {
             // are we past the center?
-<<<<<<< HEAD
-            return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
-=======
             //makes sure the text isn't on the outside of the pie
-            return (d.endAngle + d.startAngle) / 2 > Math.PI ?
-                "end" : "start";
->>>>>>> aa2df10ac3751834ce917898a6b195e3aff216ed
+            return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
         })
 
         // Rotation of wheel when clicking on a section
@@ -299,17 +292,3 @@ async function constructVenn(results) {
 }
 //@todo refactoring the datastructure to not use the parser function may allow the constructVenn()
 // function to be simplified
-<<<<<<< HEAD
-=======
-
-
-        //easter egg
-        var egg = d3.select(document.getElementsByClassName("arcText")[currentIndex])
-        console.log(egg)
-        console.log(egg.innerHTML)
-        if(egg.innerHTML === "Increase"){
-            console.log("hi")
-            var svg = document.getElementById("svg")
-            svg.setAttribute("width", svg.width + 1)
-        }
->>>>>>> aa2df10ac3751834ce917898a6b195e3aff216ed
