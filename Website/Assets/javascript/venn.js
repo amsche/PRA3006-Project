@@ -125,7 +125,7 @@ async function __init_venn(symptoms) {
         //console.log(data[index].custom_field)
         var tList = `<div class=treatmentBox> 
         <div id="tListText"> 
-        <h3>List of Available Treatments:</h3>
+        <h3>Available Treatments for ` + data[index].x + `</h3>
         <p> 
         `
         tList += data[index].treatments
