@@ -119,9 +119,7 @@ async function __init_RPC(diseaseEntered) {
 
         // Rotation of wheel when clicking on a section
         .on("click", function (d) {
-            console.log(d)
-            d.transition().attr("transform", "translate(" + width / 3 + "," + height / 2 + ")")
-            console.log(g)
+            
             // The amount we need to rotate
             // 90 makes it go to the right when you click 
             var rotate = 90 - (d.startAngle + d.endAngle) / 2 / Math.PI * 180;
