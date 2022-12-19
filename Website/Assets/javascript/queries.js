@@ -33,6 +33,7 @@ async function __symptomsQuery(diseaseEntered){
 
     return wikidataDispatcher.query(sparqlQuery);
 }
+
 async function __treatmentsQuery(symptoms){
     const sparqlQuery = `SELECT ?drug ?drugLabel
                         WHERE {

@@ -72,7 +72,7 @@ async function __init_RPC(diseaseEntered) {
     // Using the results to get purely the symptom IDs as this is easier to work with
     const symptoms = await parser(results)
     // Establishing values needed for the creation of the wheel, i.e. the area available 
-    var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height)/3, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height"), radius = Math.min(width, height)/2, g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
     //this line also uses the g variable, which resulted in a lot of confusion, practically it is only a html tag
     //the transform stuff is related to the rotational function
 
@@ -119,7 +119,7 @@ async function __init_RPC(diseaseEntered) {
 
         // Rotation of wheel when clicking on a section
         .on("click", function (d) {
-            
+
             // The amount we need to rotate
             // 90 makes it go to the right when you click 
             var rotate = 90 - (d.startAngle + d.endAngle) / 2 / Math.PI * 180;
