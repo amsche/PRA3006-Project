@@ -11,8 +11,8 @@ class SPARQLQueryDispatcher { //might make a new document with just this class t
     }
 }
 
-const endpointUrl = 'https://query.wikidata.org/sparql';
-const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel
+const endpointUrl = 'https://query.wikidata.org/sparql'; //this is the endpointurl
+const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel 
 WHERE {
 ?disease wdt:P31 wd:Q18123741.
 ?disease wdt:P780 ?symptom. 
@@ -90,6 +90,7 @@ async function main() {
             setName(results[0].name)
             return
         }
+        //creating a selector 
         clearList()
         var dropdown = "<select>"
 

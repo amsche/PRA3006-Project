@@ -4,6 +4,7 @@
 
 var coll = document.getElementsByClassName("collapsible");
 
+//creates an event that toggles the block open and closed when you click it
 for (let i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");

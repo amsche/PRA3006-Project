@@ -35,7 +35,9 @@ async function __init_venn(symptoms) {
     
 
 
-    // Retrieving and storing them in an array
+    // Retrieving and storing them in an array, go through each symptom and for each symptom we create an array named drugs, insert it into an object, and
+    //then insert it into a result array 
+    //call a bunch of querries for all the symptoms selected 
     result = []
     for (let i in symptoms) {
         var temp = sparqlQuery.replace('SYMPTOM', symptoms[i].ID);
@@ -52,7 +54,7 @@ async function __init_venn(symptoms) {
 
 
     // Generating the data
-    // (Putting all the data into a single array, where each treatment is its own element (stored with symptom and colour))
+    // (Putting all the data into a single array, where each treatment is its own element (stored with symptom and colour) 
     var alldata = []
     for (let i in result) {
         for (let j in result[i].treatment) {
@@ -67,12 +69,13 @@ async function __init_venn(symptoms) {
 
 
     // Making all the treatments unique in the array and introducing multiple symptoms it may treat
+    //for every element we check if it is in the compressed data array, if it is, it will add an additional symtpom to the already existing symptom
     var compresseddata = []
     for (let i in alldata) {
         check = true
         for (let j in compresseddata) {//for loop used because includes doesnt work with objects
-            if (alldata[i].treatment === compresseddata[j].treatment) {
-                compresseddata[j].symptom.push(alldata[i].symptom)
+            if (alldata[i].treatment === compresseddata[j].treatment) { // are the treatments the same? 
+                compresseddata[j].symptom.push(alldata[i].symptom) //add the treatment to the symptom 
                 check = false
             }
         }
@@ -131,6 +134,7 @@ async function __init_venn(symptoms) {
             name: "Click here for treatments", //seen on hover
             custom_field: morecompresseddata[i].treatment.sort().toString().replaceAll(",", "<br>"), //list of treatments used in click funtionality
             normal: ((1 < morecompresseddata[i].symptom.length) ? { } : {fill: morecompresseddata[i].colour + " 0.5"}),  //determines the colour with 50% opacity (if its an overlap section no color is assigned)
+            selected: {fill: "#C0C0C0 0.8"}
         })
     }
     var index = 0
