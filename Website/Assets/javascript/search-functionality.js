@@ -3,30 +3,6 @@
 // The main function can be found at the bottom of the code.
 
 
-
-//Class to retreive the results of a SPARQL Query to Wikidata (code downloaded from the WikiData Query Service)
-class SPARQLQueryDispatcher {
-    constructor(endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    query(sparqlQuery) {
-        const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery); //method that calls this endpoint and the query term and makes it a uri
-        const headers = { 'Accept': 'application/sparql-results+json' }; //headers: conditions that you give to show what it's (not) allowed to do 
-        return fetch(fullUrl, { headers }).then(body => body.json());
-    }
-}
-//Constructing the SPARQL Query as a URL
-const endpointUrl = 'https://query.wikidata.org/sparql';
-const sparqlQuery = `SELECT ?disease ?diseaseLabel ?symptom ?symptomLabel
-WHERE {
-?disease wdt:P31 wd:Q18123741.
-?disease wdt:P780 ?symptom. 
-SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
-}`; //the ?symptom only exists for the query to only return diseases that have symptoms
-
-
-
 // Removing duplicates (called after the query)
 // complicated because we dont want to show diseases that have no symptoms but
 // the query ensureing symptoms results in duplicates of diseases based on number of symptoms
@@ -101,8 +77,8 @@ function clearList() {
 async function main() {
 
     //Constructing object of query class. diseases will only contain id and names
-    const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
-    diseases = await queryDispatcher.query(sparqlQuery).then(Load);
+    
+    diseases = await __diseasesQuery().then(Load);
 
     //Adding listener to searchbar
     //. is class 

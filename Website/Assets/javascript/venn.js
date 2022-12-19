@@ -12,46 +12,7 @@ async function __init_venn(symptoms) {
     // Ensuring that data is clean before new constructions occur
     document.getElementById("container").innerHTML = ""
 
-
-    // Class to retreive the results of third SPARQL Query to Wikidata (code downloaded from the WikiData Query Service)
-    class SPARQLQueryDispatcher {
-        constructor(endpoint) {
-            this.endpoint = endpoint;
-        }
-
-        query(sparqlQuery) {
-            const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
-            const headers = { 'Accept': 'application/sparql-results+json' };
-            return fetch(fullUrl, { headers }).then(body => body.json());
-        }
-    }
-    // Constructing the SPARQL Query as a URL
-    const endpointUrl = 'https://query.wikidata.org/sparql';
-    const sparqlQuery = `SELECT ?drug ?drugLabel
-                        WHERE {
-                        wd:SYMPTOM wdt:P2176 ?drug
-                        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
-                        }`;
-    
-
-
-    // Retrieving and storing them in an array, go through each symptom and for each symptom we create an array named drugs, insert it into an object, and
-    //then insert it into a result array 
-    //call a bunch of querries for all the symptoms selected 
-    result = []
-    for (let i in symptoms) {
-        var temp = sparqlQuery.replace('SYMPTOM', symptoms[i].ID);
-        //console.log(temp)
-        const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
-        temp = await queryDispatcher.query(temp)
-        drugs = []
-        for (let j in temp.results.bindings) {
-            drugs.push(capitalizeFirstLetter(temp.results.bindings[j].drugLabel.value))
-        }
-        result.push({ symptom: capitalizeFirstLetter(symptoms[i].Name), treatment: drugs, colour: symptoms[i].Colour })
-    }
-
-
+    result = await __treatmentsQuery(symptoms)
 
     // Generating the data
     // (Putting all the data into a single array, where each treatment is its own element (stored with symptom and colour) 

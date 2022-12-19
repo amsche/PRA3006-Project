@@ -42,7 +42,9 @@ function capitalizeFirstLetter(string) {
 // Seperated from previous section because it is also called from another document(search-functionality.js)
 // Because called from another file dunder notation used
 async function __init_RPC(diseaseEntered) {
-    results = await query2(diseaseEntered)
+
+    results = await __symptomsQuery(diseaseEntered)
+
     // Ensuring that the data is clean before other constructions occur (reseting it) 
     document.getElementById("svg").innerHTML = ""
     document.getElementById("container").innerHTML = ""
@@ -178,35 +180,6 @@ async function __init_RPC(diseaseEntered) {
         }
     })
 
-}
-
-
-
-//Sending second SPARQL Query to WikiData (code downloaded from the WikiData Query Service)
-async function query2(diseaseEntered) {
-    //Class to retreive the results
-    class SPARQLQueryDispatcher {
-        constructor(endpoint) {
-            this.endpoint = endpoint;
-        }
-
-        query(sparqlQuery) {
-            const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
-            const headers = { 'Accept': 'application/sparql-results+json' };
-            return fetch(fullUrl, { headers }).then(body => body.json());
-        }
-    }
-    //Constructing the SPARQL Query as a URL
-    const endpointUrl = 'https://query.wikidata.org/sparql';
-    var sparqlQuery = `SELECT ?symptom ?symptomLabel ?symptomDescription
-                    WHERE {
-                    wd:DISEASE wdt:P780 ?symptom.
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
-                    }`;
-    sparqlQuery = sparqlQuery.replaceAll('DISEASE', diseaseEntered); //allows us to find a specific diseases symptoms
-
-    const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
-    return queryDispatcher.query(sparqlQuery);
 }
 
 // Taking the results of the query (parser) and converting them to just the names of the symptoms
