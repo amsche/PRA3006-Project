@@ -51,7 +51,7 @@ async function __init_RPC(diseaseEntered) {
     document.getElementById("treatmentList").innerHTML = ""
     document.getElementById("venntitle").innerHTML = ""
     document.getElementById("vennDisclaimer").innerHTML = ""
-    document.getElementById("title").innerHTML = ""
+    //document.getElementById("title").innerHTML = ""
 
     var currentIndex = null //no current index yet
     selectedSymptoms = []
